@@ -15,7 +15,7 @@ root.appendChild(submit)
 const results: HTMLDivElement = document.createElement("div")
 root.appendChild(results)
 
-const HOST = "https://rtt-lib.onrender.com/"
+const HOST = "https://rtt-api-server.onrender.com/"
 
 submit.onclick = () => {
     results.innerText = "Loading..."
