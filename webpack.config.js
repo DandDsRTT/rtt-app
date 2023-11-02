@@ -4,7 +4,7 @@ const IgnoreNotFoundExportPlugin = require("ignore-not-found-export-webpack-plug
 
 module.exports = {
     mode: "development",
-    entry: "./src/index.ts",
+    entry: "./src/index.tsx",
     devtool: "inline-source-map",
     devServer: {
         static: {
@@ -16,7 +16,7 @@ module.exports = {
         ignored: ["node_modules", "spec"],
     },
     resolve: {
-        extensions: [".ts", ".scss", ".js", ".json"],
+        extensions: [".ts", ".tsx", ".scss", ".js", ".json"],
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -31,7 +31,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.[tj]s$/,
+                test: /\.[tj]sx?$/,
                 loader: "ts-loader",
                 options: {
                     compilerOptions: {
@@ -40,6 +40,11 @@ module.exports = {
                     transpileOnly: true,
                 },
             },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                exclude: /node_modules/,
+            }
         ],
     },
 }
