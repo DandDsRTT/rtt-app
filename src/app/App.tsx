@@ -1,21 +1,72 @@
 import { useDispatch, useSelector } from "react-redux"
 import React from "react"
-import { actionTypes } from "./actions"
 import { MyState } from "./types"
 import { PRIMES } from "./constants"
+import axios from "axios"
+import { convertCommaBasisToEbk, convertMappingToEbk, transposeArray } from "./utilities"
+
+const HOST = "https://rtt-api-server.onrender.com/"
 
 const App = () => {
-    console.log("reredner")
     const {
         standardDomainPrimeCount,
         mapping,
-    } = useSelector((state: MyState) => ({
-        standardDomainPrimeCount: state.standardDomainPrimeCount,
-        mapping: state.mapping,
-    }))
+        commaBasis
+    } = useSelector((state: MyState) => {
+        return {
+            standardDomainPrimeCount: state.standardDomainPrimeCount,
+            mapping: state.mapping,
+            commaBasis: state.commaBasis,
+        }
+    })
     const dispatch = useDispatch()
-    const handlePlus = () => dispatch({ type: actionTypes.EXPAND_DOMAIN })
-    const handleMinus = () => dispatch({ type: actionTypes.SHRINK_DOMAIN })
+    const handlePlus = () => dispatch({ type: "expandDomain" })
+    const handleMinus = () => dispatch({ type: "shrinkDomain" })
+
+    const handleMappingElementChange = (input: React.ChangeEvent<HTMLInputElement>, mappingAddress: number[]) => {
+        const [ rowIndex, colIndex ] = mappingAddress
+        const newMapping = JSON.parse(JSON.stringify(mapping))
+        newMapping[ rowIndex ][ colIndex ] = parseInt(input.target.value)
+        dispatch({ type: "changeMapping", data: newMapping })
+
+        axios.get(
+            HOST + encodeURI("dual?unparsedT=" + convertMappingToEbk(newMapping)),
+            {},
+        ).then(response => {
+            let unparsedCommaBasis = response.data.replace("MatrixForm[", "")
+                .replace("]", "")
+                .replaceAll("{", "[")
+                .replaceAll("}", "]")
+            unparsedCommaBasis = JSON.parse(unparsedCommaBasis)
+            unparsedCommaBasis = transposeArray(unparsedCommaBasis, unparsedCommaBasis[0].length)
+            dispatch({ type: "changeCommaBasis", data: unparsedCommaBasis })
+        }).catch(e => {
+            console.error("axios error: ", e)
+        })
+    }
+    
+    const handleCommaBasisElementChange = (input: React.ChangeEvent<HTMLInputElement>, commaBasisAddress: number[]) => {
+        const [ colIndex, rowIndex ] = commaBasisAddress
+        const newCommaBasis = JSON.parse(JSON.stringify(commaBasis))
+        newCommaBasis[ colIndex ][ rowIndex ] = parseInt(input.target.value)
+        dispatch({ type: "changeCommaBasis", data: newCommaBasis })
+
+        axios.get(
+            HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
+            {},
+        ).then(response => {
+            console.log("WHAT? ", response.data)
+            let unparsedMapping = response.data.replace("MatrixForm[", "")
+                .replace("]", "")
+                .replaceAll("{", "[")
+                .replaceAll("}", "]")
+            unparsedMapping = JSON.parse(unparsedMapping)
+            // unparsedMapping = transposeArray(unparsedMapping, unparsedMapping[0].length)
+            dispatch({ type: "changeMapping", data: unparsedMapping })
+        }).catch(e => {
+            console.error("axios error: ", e)
+        })
+    }
 
     const domain = PRIMES.slice(0, standardDomainPrimeCount)
     const finalDomainKey = domain.length - 1
@@ -25,12 +76,29 @@ const App = () => {
             {key === finalDomainKey ? <button onClick={handleMinus}>-</button> : ""}
         </div>
     })
-    
-    const mapppingElements = mapping.map((mappingRow, key) => {
-        const mappingRowElements = mappingRow.map((mappingElement, key) => {
-            return <div className="mapping-element" key={key}>{mappingElement}</div>
+
+    const mappingElements = mapping.map((mappingRow, rowIndex) => {
+        const mappingRowElements = mappingRow.map((mappingElement, colIndex) => {
+            return <input
+                className="mapping-element"
+                key={[rowIndex, colIndex].join(",")}
+                value={mappingElement}
+                onChange={input => handleMappingElementChange(input, [rowIndex, colIndex])}
+            />
         })
-        return <div className="mapping-row" key={key}>{mappingRowElements}</div>
+        return <div className="mapping-row" key={rowIndex}>{mappingRowElements}</div>
+    })
+
+    const commaBasisElements = commaBasis.map((comma, colIndex) => {
+        const commaElements = comma.map((commaElement, rowIndex) => {
+            return <input
+                className="comma-basis-element"
+                key={[colIndex, rowIndex].join(",")}
+                value={commaElement}
+                onChange={input => handleCommaBasisElementChange(input, [colIndex, rowIndex])}
+            />
+        })
+        return <div className="comma" key={colIndex}>{commaElements}</div>
     })
 
     return <div className="container">
@@ -40,7 +108,10 @@ const App = () => {
         </div>
         <div className="aligned-with-domain">{"aligned with domain"}</div>
         <div className="mapping">
-            {mapppingElements}
+            {mappingElements}
+        </div>
+        <div className="comma-basis">
+            {commaBasisElements}
         </div>
     </div>
 }

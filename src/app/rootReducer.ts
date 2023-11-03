@@ -1,29 +1,25 @@
-import { actionTypes } from "./actions"
-import { MyAction } from "./types"
 import { initialState } from "./initialState"
+import { createReducer } from "@reduxjs/toolkit"
 
-const reducer = (state = initialState, action: MyAction) => {
-    const { type, data } = action
-
-    const newState = JSON.parse(JSON.stringify(state))
-
-    console.log(type)
-
-    switch (type) {
-        case actionTypes.EXPAND_DOMAIN: {
-            newState.standardDomainPrimeCount = newState.standardDomainPrimeCount + 1
-            newState.mapping = newState.mapping.map((mappingRow: number[]) => [...mappingRow, 0])
-            break
-        }
-        case actionTypes.SHRINK_DOMAIN: {
-            newState.standardDomainPrimeCount = newState.standardDomainPrimeCount - 1
-            newState.mapping = newState.mapping.map((mappingRow: number[]) => mappingRow.slice(0, newState.standardDomainPrimeCount))
-            break
-        }
-    }
-
-    return newState
-}
+const reducer = createReducer(initialState, (builder) => {
+    builder
+        .addCase("expandDomain", (state, action) => {
+            state.standardDomainPrimeCount = state.standardDomainPrimeCount + 1
+            state.mapping = state.mapping.map((mappingRow: number[]) => [...mappingRow, 0])
+        })
+        .addCase("shrinkDomain", (state, action) => {
+            state.standardDomainPrimeCount = state.standardDomainPrimeCount - 1
+            state.mapping = state.mapping.map((mappingRow: number[]) => mappingRow.slice(0, state.standardDomainPrimeCount))
+        })
+        .addCase("changeMapping", (state, action) => {
+            // @ts-ignore
+            state.mapping = action.data
+        })
+        .addCase("changeCommaBasis", (state, action) => {
+            // @ts-ignore
+            state.commaBasis = action.data
+        })
+})
 
 export {
     reducer,

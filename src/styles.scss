@@ -4,7 +4,7 @@ button {
   outline: none;
 }
 
-.domain-element, .mapping-element {
+.domain-element, .mapping-element, .comma-basis-element {
   width: 20px;
   height: 20px;
   text-align: center;
@@ -40,4 +40,14 @@ button {
   grid-template-columns: 0.5fr 0.3fr;
   gap: 10px;
   grid-auto-rows: minmax(100px, auto);
+}
+
+.comma-basis {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.comma {
+  display: flex;
+  flex-direction: column;
 }

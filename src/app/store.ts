@@ -1,8 +1,10 @@
-import { createStore, Store } from "redux"
 import { reducer } from "./rootReducer"
-import { MyAction, MyState } from "./types"
+import { configureStore } from "@reduxjs/toolkit"
 
-const store: Store<MyState, MyAction> = createStore(reducer)
+const store = configureStore({
+    reducer, 
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+})
 
 export {
     store,
