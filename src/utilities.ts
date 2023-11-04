@@ -1,5 +1,5 @@
-const transposeArray = (array) => {
-    return array[0].map((_, colIndex) => array.map(row => row[colIndex]));
+const transposeArray = (array: number[][]) => {
+    return array[0].map((_, colIndex) => array.map(row => row[colIndex]))
 }
 
 const convertMappingToEbk = (mapping: number[][]) => {
