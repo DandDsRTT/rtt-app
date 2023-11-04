@@ -1,19 +1,7 @@
-function transposeArray(array, arrayLength) {
-    var newArray = []
-    for (var i = 0; i < array.length; i++) {
-        newArray.push([])
-    }
-
-
-    for (var i = 0; i < array.length; i++) {
-        for (var j = 0; j < arrayLength; j++) {
-            newArray[ j ].push(array[ i ][ j ])
-        }
-
-    }
-
-    return newArray
+const transposeArray = (array) => {
+    return array[0].map((_, colIndex) => array.map(row => row[colIndex]));
 }
+
 const convertMappingToEbk = (mapping: number[][]) => {
     let ebk = "["
     for (const mappingRow of mapping) {
@@ -38,8 +26,6 @@ const convertCommaBasisToEbk = (commaBasis: number[][]) => {
         ebk += "⟩"
     }
     ebk += "]"
-
-    console.log("comma baiss ebk", ebk)
     
     return ebk
 }

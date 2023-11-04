@@ -38,7 +38,7 @@ const App = () => {
                 .replaceAll("{", "[")
                 .replaceAll("}", "]")
             unparsedCommaBasis = JSON.parse(unparsedCommaBasis)
-            unparsedCommaBasis = transposeArray(unparsedCommaBasis, unparsedCommaBasis[0].length)
+            unparsedCommaBasis = transposeArray(unparsedCommaBasis)
             dispatch({ type: "changeCommaBasis", data: unparsedCommaBasis })
         }).catch(e => {
             console.error("axios error: ", e)
@@ -55,13 +55,11 @@ const App = () => {
             HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
             {},
         ).then(response => {
-            console.log("WHAT? ", response.data)
             let unparsedMapping = response.data.replace("MatrixForm[", "")
                 .replace("]", "")
                 .replaceAll("{", "[")
                 .replaceAll("}", "]")
             unparsedMapping = JSON.parse(unparsedMapping)
-            // unparsedMapping = transposeArray(unparsedMapping, unparsedMapping[0].length)
             dispatch({ type: "changeMapping", data: unparsedMapping })
         }).catch(e => {
             console.error("axios error: ", e)
