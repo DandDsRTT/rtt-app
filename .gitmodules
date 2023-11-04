@@ -1,0 +1,4 @@
+[submodule "rtt-app.github.io"]
+	path = dist
+	url = git@github.com:DandDsRTT/DandDsRTT.github.io.git
+
