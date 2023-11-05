@@ -14,8 +14,20 @@ button {
 
 .container {
   display: grid;
-  grid-template-columns: 0.5fr 0.3fr;
+  grid-template-columns: repeat(max-content);
   gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
+  grid-auto-rows: auto;
+}
+
+.item-a {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-area: itema;
+}
+
+.itema {
+  background-color: red;
 }
 

@@ -5,6 +5,8 @@ import { App } from "./components/App"
 import { store } from "./state/store"
 import "./styles.scss"
 
+store.dispatch({ type: "initializeGrid" })
+
 const rootElement: HTMLDivElement = document.createElement("div")
 document.body.appendChild(rootElement)
 const root = createRoot(rootElement)
