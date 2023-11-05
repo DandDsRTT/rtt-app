@@ -1,4 +1,4 @@
-import { initialState } from "./initialState"
+import {initialState} from "./initialState"
 import {Action, createReducer, current} from "@reduxjs/toolkit"
 import {COLS, ROWS} from "../constants";
 
@@ -9,8 +9,8 @@ const reducer = createReducer(initialState, (builder) => {
             state.mapping = state.mapping.map((mappingRow: number[]) => [...mappingRow, 0])
             // console.log("commaBasis", current(state.commaBasis))
             state.commaBasis = state.commaBasis.map((comma: number[]) => [...comma, 0])
-            state.view.cols[COLS.DOMAIN_PRIMES].subcols.push({ name: `p${state.dimensionality}`, gridCol: 0 })
-            state.view.rows[ROWS.INTERVALS].subrows.push({ name: `p${state.dimensionality}`, gridRow: 0 })
+            state.view.cols[COLS.DOMAIN_PRIMES].subcols.push({name: `p${state.dimensionality}`, gridCol: 0})
+            state.view.rows[ROWS.INTERVALS].subrows.push({name: `p${state.dimensionality}`, gridRow: 0})
             state.view = updateGrid(state.view)
         })
         .addCase("shrinkDomain", (state) => {
@@ -36,6 +36,15 @@ const updateGrid = (view) => {
     let gridRow = 0
 
     view.rows.forEach(row => {
+        row.subrows.unshift({
+            name: "top margin",
+            gridRow: 0,
+        })
+        row.subrows.push({
+            name: "bottom margin",
+            gridRow: 0,
+        })
+
         // console.log("wtf is row", row)
         row.subrows.forEach(subrow => {
             // console.log("wtf is subrow", subrow)
@@ -46,12 +55,23 @@ const updateGrid = (view) => {
 
     let gridCol = 0
     for (const col of view.cols) {
+        col.subcols.unshift({
+            name: "left margin",
+            gridCol: 0,
+        })
+        col.subcols.push({
+            name: "right margin",
+            gridCol: 0,
+        })
+        
         for (const subcol of col.subcols) {
             subcol.gridCol = gridCol
             gridCol++
         }
     }
     
+    // console.log(current(view))
+
     return view
 }
 

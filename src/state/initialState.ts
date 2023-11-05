@@ -79,15 +79,15 @@ const initialState: ObjectState = {
                 viewState: "collapsed",
                 subrows: [
                     {
-                        name: "p1",
+                        name: "p_1",
                         gridRow: 0,
                     },
                     {
-                        name: "p2",
+                        name: "p_2",
                         gridRow: 0,
                     },
                     {
-                        name: "p3",
+                        name: "p_3",
                         gridRow: 0,
                     },
                     {
@@ -101,11 +101,11 @@ const initialState: ObjectState = {
                 viewState: "visible",
                 subrows: [
                     {
-                        name: "g1",
+                        name: "g_1",
                         gridRow: 0,
                     },
                     {
-                        name: "g2",
+                        name: "g_2",
                         gridRow: 0,
                     },
                     {
@@ -171,11 +171,11 @@ const initialState: ObjectState = {
                 viewState: "hidden",
                 subcols: [
                     {
-                        name: "g1",
+                        name: "g_1",
                         gridCol: 0,
                     },
                     {
-                        name: "g2",
+                        name: "g_2",
                         gridCol: 0,
                     },
                     {
@@ -189,15 +189,15 @@ const initialState: ObjectState = {
                 viewState: "visible",
                 subcols: [
                     {
-                        name: "p1",
+                        name: "p_1",
                         gridCol: 0,
                     },
                     {
-                        name: "p2",
+                        name: "p_2",
                         gridCol: 0,
                     },
                     {
-                        name: "p3",
+                        name: "p_3",
                         gridCol: 0,
                     },
                     {

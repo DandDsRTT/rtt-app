@@ -2,6 +2,8 @@ button {
   cursor: pointer;
   border: none;
   outline: none;
+  width: 30px;
+  height: 30px;
 }
 
 .square-input {
@@ -9,13 +11,35 @@ button {
   height: 30px;
   text-align: center;
   vertical-align: center;
-  border: 1px solid #C0C0C0;
+  //border: 1px solid #C0C0C0;
+  //padding: 5px;
+  display: flex;
+  
+  input {
+    width: 100%;
+    //width: 20px;
+    //height: 20px;
+    text-align: center;
+  }
+}
+
+.margin {
+  width: 10px;
 }
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 30px);
-  gap: 10px;
+  //grid-template-columns: min-content auto;
+  grid-template-columns: repeat(auto-fit, minmax(0,max-content));
+  //gap: 10px;
   grid-auto-rows: auto;
 }
 
+//.stuff {
+//  grid-area: 3 / 3 / 5 / 5;
+//  background-color: blue;
+//}
+
+input {
+  width: 100%;
+}
