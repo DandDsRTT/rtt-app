@@ -5,8 +5,8 @@ button {
 }
 
 .square-input {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   vertical-align: center;
   border: 1px solid #C0C0C0;
@@ -14,20 +14,8 @@ button {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(max-content);
+  grid-template-columns: repeat(auto-fit, 30px);
   gap: 10px;
   grid-auto-rows: auto;
-}
-
-.item-a {
-  grid-column-start: 2;
-  grid-column-end: 5;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  grid-area: itema;
-}
-
-.itema {
-  background-color: red;
 }
 

@@ -19,19 +19,18 @@ const App = () => {
         let gridRow = view.rows[ROWS.HEADER].subrows[0].gridRow;
         let gridCo = view.cols[COLS.DOMAIN_PRIMES].subcols[key].gridCol;
         return (
-            <div
+            <input
                 className="square-input"
                 key={key}
                 style={{
                     gridRow: gridRow,
                     gridColumn: gridCo
-                }}>
-                {domainElement}
-            </div>
+                }}
+                value={domainElement}
+            />
         )
     })
-    
-    
+
     const domainShrinkAndExpandsElements = [];
     for (let i = 0; i < dimensionality; i++) {
         domainShrinkAndExpandsElements.push(
