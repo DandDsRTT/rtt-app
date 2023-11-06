@@ -1,4 +1,4 @@
-import {ObjectState} from "./types";
+import { ObjectState } from "./types"
 
 const initialState: ObjectState = {
     dimensionality: 3,
@@ -13,8 +13,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridRow: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "collapses",
@@ -23,8 +23,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridRow: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "cardinality",
@@ -47,8 +47,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridRow: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "header",
@@ -72,7 +72,7 @@ const initialState: ObjectState = {
                         name: "main",
                         gridRow: 0,
                     },
-                ]
+                ],
             },
             {
                 name: "intervals",
@@ -93,8 +93,8 @@ const initialState: ObjectState = {
                     {
                         name: "plus",
                         gridRow: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "mapping",
@@ -111,9 +111,9 @@ const initialState: ObjectState = {
                     {
                         name: "plus",
                         gridRow: 0,
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         ],
         cols: [
             {
@@ -123,8 +123,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridCol: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "collapses",
@@ -133,8 +133,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridCol: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "removes and expands",
@@ -143,8 +143,8 @@ const initialState: ObjectState = {
                     {
                         name: "main",
                         gridCol: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "header",
@@ -154,7 +154,7 @@ const initialState: ObjectState = {
                         name: "main",
                         gridCol: 0,
                     },
-                ]
+                ],
             },
             {
                 name: "units",
@@ -164,7 +164,7 @@ const initialState: ObjectState = {
                         name: "main",
                         gridCol: 0,
                     },
-                ]
+                ],
             },
             {
                 name: "generators",
@@ -181,8 +181,8 @@ const initialState: ObjectState = {
                     {
                         name: "plus",
                         gridCol: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "domain primes",
@@ -203,27 +203,27 @@ const initialState: ObjectState = {
                     {
                         name: "plus",
                         gridCol: 0,
-                    }
-                ]
+                    },
+                ],
             },
             {
                 name: "commas",
                 viewState: "collapsed",
                 subcols: [
                     {
-                        name: "c1",
+                        name: "c_1",
                         gridCol: 0,
                     },
                     {
                         name: "plus",
                         gridCol: 0,
-                    }
-                ]
-            }
-        ]
-    }
+                    },
+                ],
+            },
+        ],
+    },
 }
 
 export {
-    initialState
+    initialState,
 }

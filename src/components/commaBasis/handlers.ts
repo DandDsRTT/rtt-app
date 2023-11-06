@@ -1,11 +1,11 @@
-import React from "react";
-import axios from "axios";
-import {HOST} from "../../constants";
-import {convertCommaBasisToEbk} from "../../utilities";
-import {Dispatch} from "@reduxjs/toolkit";
+import React from "react"
+import axios from "axios"
+import { HOST } from "../../constants"
+import { convertCommaBasisToEbk } from "../../utilities"
+import { Dispatch } from "@reduxjs/toolkit"
 
 const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][], input: React.ChangeEvent<HTMLInputElement>, commaBasisAddress: number[]) => {
-    const [ colIndex, rowIndex ] = commaBasisAddress
+    const [colIndex, rowIndex] = commaBasisAddress
     const newCommaBasis = JSON.parse(JSON.stringify(commaBasis))
     newCommaBasis[ colIndex ][ rowIndex ] = parseInt(input.target.value)
     dispatch({ type: "changeCommaBasis", data: newCommaBasis })

@@ -1,4 +1,4 @@
-import {SpecReporter} from "jasmine-spec-reporter"
+import { SpecReporter } from "jasmine-spec-reporter"
 
 Error.stackTraceLimit = Infinity
 

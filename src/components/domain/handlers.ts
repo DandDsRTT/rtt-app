@@ -1,6 +1,8 @@
-const handlePlus = (dispatch) => dispatch({ type: "expandDomain" })
+import { Dispatch } from "@reduxjs/toolkit"
 
-const handleMinus = (dispatch) => dispatch({ type: "shrinkDomain" })
+const handlePlus = (dispatch: Dispatch) => dispatch({ type: "expandDomain" })
+
+const handleMinus = (dispatch: Dispatch) => dispatch({ type: "shrinkDomain" })
 
 export {
     handleMinus,

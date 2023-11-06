@@ -1,45 +1,76 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0,max-content));
+  grid-auto-rows: auto;
+}
+
 button {
+  width: 20px;
+  height: 20px;
+  
   cursor: pointer;
+  
   border: none;
-  outline: none;
+  outline: 1px solid #888888;
+  background-color: white;
+}
+
+.square-box {
   width: 30px;
   height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #e0e0e0;
 }
 
 .square-input {
   width: 30px;
   height: 30px;
-  text-align: center;
-  vertical-align: center;
-  //border: 1px solid #C0C0C0;
-  //padding: 5px;
-  display: flex;
   
-  input {
-    width: 100%;
-    //width: 20px;
-    //height: 20px;
-    text-align: center;
-  }
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  
+  background-color: #e0e0e0;
 }
-
-.margin {
-  width: 10px;
-}
-
-.container {
-  display: grid;
-  //grid-template-columns: min-content auto;
-  grid-template-columns: repeat(auto-fit, minmax(0,max-content));
-  //gap: 10px;
-  grid-auto-rows: auto;
-}
-
-//.stuff {
-//  grid-area: 3 / 3 / 5 / 5;
-//  background-color: blue;
-//}
 
 input {
+  outline: 1px solid #888888;
   width: 100%;
+  text-align: center;
+}
+
+.corner-padding {
+  background-color: #e0e0e0;
+}
+
+.vertical-padding {
+  min-height: 10px;
+  background-color: #e0e0e0;
+}
+
+.horizontal-padding {
+  min-width: 10px;
+  background-color: #e0e0e0;
+}
+
+.corner-margin {
+  background-color: #c0c0c0; 
+}
+
+.vertical-margin {
+  min-height: 10px;
+  background-color: #c0c0c0;
+}
+
+.horizontal-margin {
+  min-width: 10px;
+  background-color: #c0c0c0;
+}
+
+.blank {
+  background-color: #e0e0e0;
 }

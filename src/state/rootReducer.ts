@@ -1,75 +1,100 @@
-import {initialState} from "./initialState"
-import {Action, createReducer, current} from "@reduxjs/toolkit"
-import {COLS, ROWS} from "../constants";
+import { initialState } from "./initialState"
+import { Action, createReducer, current } from "@reduxjs/toolkit"
+import { COLS, ROWS } from "../constants"
+import { View } from "./types"
 
 const reducer = createReducer(initialState, (builder) => {
     builder
         .addCase("expandDomain", (state) => {
             state.dimensionality = state.dimensionality + 1
             state.mapping = state.mapping.map((mappingRow: number[]) => [...mappingRow, 0])
-            // console.log("commaBasis", current(state.commaBasis))
             state.commaBasis = state.commaBasis.map((comma: number[]) => [...comma, 0])
-            state.view.cols[COLS.DOMAIN_PRIMES].subcols.push({name: `p${state.dimensionality}`, gridCol: 0})
-            state.view.rows[ROWS.INTERVALS].subrows.push({name: `p${state.dimensionality}`, gridRow: 0})
-            state.view = updateGrid(state.view)
+            updateDomain(state.view, state.dimensionality)
+            updateGrid(state.view)
         })
         .addCase("shrinkDomain", (state) => {
             state.dimensionality = state.dimensionality - 1
             state.mapping = state.mapping.map((mappingRow: number[]) => mappingRow.slice(0, state.dimensionality))
             state.commaBasis = state.commaBasis.map((comma: number[]) => comma.slice(0, state.dimensionality))
-            state.view.cols[COLS.DOMAIN_PRIMES].subcols.pop()
-            state.view.rows[ROWS.INTERVALS].subrows.pop()
-            state.view = updateGrid(state.view)
+            updateDomain(state.view, state.dimensionality)
+            updateGrid(state.view)
         })
         .addCase("changeMapping", (state, action: Action<"changeMapping">) => {
+            // @ts-ignore
             state.mapping = action.data
         })
         .addCase("changeCommaBasis", (state, action) => {
+            // @ts-ignore
             state.commaBasis = action.data
         })
         .addCase("initializeGrid", (state) => {
-            state.view = updateGrid(state.view)
+           updateGrid(state.view)
         })
 })
 
-const updateGrid = (view) => {
+const updateDomain = (view: View, dimensionality: number) => {
+    const newSubcols = []
+    for (let i = 1; i <= dimensionality; i++) {
+        newSubcols.push({ name: `p_${i}`, gridCol: 0 })
+    }
+    newSubcols.push({ name: "plus", gridCol: 0})
+    view.cols[ COLS.DOMAIN_PRIMES ].subcols = newSubcols
+    
+    const newSubrows = []
+    for (let i = 1; i <= dimensionality; i++) {
+        newSubrows.push({ name: `p_${i}`, gridRow: 0 })
+    }
+    newSubrows.push({ name: "plus", gridRow: 0})
+    view.rows[ ROWS.INTERVALS ].subrows = newSubrows
+}
+
+const updateGrid = (view: View) => {
     let gridRow = 0
-
     view.rows.forEach(row => {
-        row.subrows.unshift({
-            name: "top margin",
-            gridRow: 0,
-        })
-        row.subrows.push({
-            name: "bottom margin",
-            gridRow: 0,
-        })
+        if (row.subrows[0].name !== "top padding") {
+            row.subrows.unshift({
+                name: "top padding",
+                gridRow: 0,
+            })
+            row.subrows.push({
+                name: "bottom padding",
+                gridRow: 0,
+            })
+            row.subrows.push({
+                name: "vertical margin",
+                gridRow: 0,
+            })
+        }
 
-        // console.log("wtf is row", row)
         row.subrows.forEach(subrow => {
-            // console.log("wtf is subrow", subrow)
             subrow.gridRow = gridRow
             gridRow++
         })
     })
 
     let gridCol = 0
-    for (const col of view.cols) {
-        col.subcols.unshift({
-            name: "left margin",
-            gridCol: 0,
-        })
-        col.subcols.push({
-            name: "right margin",
-            gridCol: 0,
-        })
-        
-        for (const subcol of col.subcols) {
+    view.cols.forEach(col => {
+        if (col.subcols[0].name !== "left padding") {
+            col.subcols.unshift({
+                name: "left padding",
+                gridCol: 0,
+            })
+            col.subcols.push({
+                name: "right padding",
+                gridCol: 0,
+            })
+            col.subcols.push({
+                name: "horizontal margin",
+                gridCol: 0,
+            })
+        }
+
+        col.subcols.forEach(subcol => {
             subcol.gridCol = gridCol
             gridCol++
-        }
-    }
-    
+        })
+    })
+
     // console.log(current(view))
 
     return view

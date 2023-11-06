@@ -30,5 +30,5 @@ export {
     HOST,
     PRIMES,
     COLS,
-    ROWS
+    ROWS,
 }
