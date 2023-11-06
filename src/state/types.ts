@@ -34,4 +34,9 @@ interface SubCol {
 
 export {
     ObjectState,
+    View,
+    Col,
+    Row,
+    SubCol,
+    SubRow,
 }

@@ -1,23 +1,36 @@
-// import {useDispatch, useSelector} from "react-redux";
-// import {ObjectState} from "../../state/types";
-// import React from "react";
-// import {handleCommaBasisElementChange} from "./handlers";
-// import "./styles.scss"
-// import {COLS, ROWS} from "../../constants";
-//
-// const CommaBasis = () => {
-//     const {commaBasis, view} = useSelector(({commaBasis, view}: ObjectState) => ({commaBasis, view}))
-//     const dispatch = useDispatch()
-//
-//    
-//
-//     return (
-//         <div className="comma-basis">
-//             {commaBasisElements}
-//         </div>
-//     )
-// }
-//
-// export {
-//     CommaBasis,
-// }
+import React from "react";
+import {handleCommaBasisElementChange} from "./handlers";
+import {useSelector} from "react-redux";
+import {Col, ObjectState, Row} from "../../state/types";
+import {Dispatch} from "@reduxjs/toolkit";
+
+const getCommaBasisElements = (row: Row, col: Col, dispatch: Dispatch) => {
+    const commaBasis = useSelector((state: ObjectState) => state.commaBasis)
+
+    const commaBasisElements = []
+    commaBasis.forEach((comma, colIndex) => {
+        comma.forEach((commaElement, rowIndex) => {
+            commaBasisElements.push(
+                <div
+                    className="square-input"
+                    style={{
+                        gridRow: row.subrows[rowIndex].gridRow,
+                        gridColumn: col.subcols[colIndex].gridCol
+                    }}
+                    key={[colIndex, rowIndex].join(",")}
+                >
+                    <input
+                        value={commaElement}
+                        onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [colIndex, rowIndex])}
+                    />
+                </div>
+            )
+        })
+    })
+    
+    return commaBasisElements
+}
+
+export {
+    getCommaBasisElements,
+}
