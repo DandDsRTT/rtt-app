@@ -224,6 +224,8 @@ const initialState: ObjectState = {
     },
 }
 
+// TODO: break p_1 into type prime and index 1, or type gridded is better, maybe like full-row or full-col is good
+
 export {
     initialState,
 }
