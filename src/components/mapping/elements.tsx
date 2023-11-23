@@ -42,6 +42,7 @@ const getMappingElement = (
             >
                 <input
                     value={mappingElement}
+                    title="mapping-input"
                     onChange={input => handleMappingElementChange(dispatch, mapping, input, [generatorIndex, primeIndex])}
                 />
             </div>
