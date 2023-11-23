@@ -12,6 +12,8 @@ const getMappingElements = (row: Row, col: Col, dispatch: Dispatch) => {
     return includePaddingAndMargin(row, col, getMappingElement, { dispatch, mapping })
 }
 
+// TODO: use the <> </> pattern to improve the readability of this stuff, make it actually a component 
+
 const getMappingElement = (
     subrow: SubRow,
     subcol: SubCol,

@@ -1,7 +1,8 @@
 {
   "spec_dir": "spec",
   "spec_files": [
-    "**/*[sS]pec.ts"
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "helpers": [
     "**/helpers/**/*.ts"

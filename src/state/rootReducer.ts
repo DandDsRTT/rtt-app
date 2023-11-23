@@ -1,5 +1,5 @@
 import { initialState } from "./initialState"
-import { Action, createReducer, current } from "@reduxjs/toolkit"
+import { Action, createReducer } from "@reduxjs/toolkit"
 import { COLS, ROWS } from "../constants"
 import { View } from "./types"
 
