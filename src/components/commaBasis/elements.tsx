@@ -40,6 +40,7 @@ const getCommaBasisElement = (
             >
                 <input
                     value={commaBasisElement}
+                    title={`comma-basis-cell-col-${commaBasisColIndex+1}-row-${commaBasisRowIndex+1}`}
                     onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [commaBasisColIndex, commaBasisRowIndex])}
                 />
             </div>

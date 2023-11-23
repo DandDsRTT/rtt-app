@@ -25,6 +25,7 @@ const getDomainElement = (subrow: SubRow, subcol: SubCol, key: string) => {
                 }}
             >
                 <input
+                    title={`domain-cell-${domainElementIndex+1}`}
                     value={PRIMES[ domainElementIndex ]}
                     onChange={() => {
                     }}
