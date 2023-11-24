@@ -1,7 +1,7 @@
-import { initialState } from "./initialState"
-import { Action, createReducer } from "@reduxjs/toolkit"
-import { COLS, ROWS } from "../constants"
-import { View } from "./types"
+import {initialState} from "./initialState"
+import {Action, createReducer} from "@reduxjs/toolkit"
+import {COLS, ROWS} from "../constants"
+import {View} from "./types"
 
 const reducer = createReducer(initialState, (builder) => {
     builder
@@ -28,70 +28,76 @@ const reducer = createReducer(initialState, (builder) => {
             state.commaBasis = action.data
         })
         .addCase("initializeGrid", (state) => {
-           updateGrid(state.view)
+            updateGrid(state.view)
         })
 })
 
 const updateDomain = (view: View, dimensionality: number) => {
     const newSubcols = []
-    for (let i = 1; i <= dimensionality; i++) {
-        newSubcols.push({ name: `p_${i}`, gridCol: 0 })
+    for (let i = 0; i < dimensionality; i++) {
+        newSubcols.push({type: "gridded", index: i, gridColumn: 0})
     }
-    newSubcols.push({ name: "plus", gridCol: 0})
-    view.cols[ COLS.DOMAIN_PRIMES ].subcols = newSubcols
-    
+    newSubcols.push({type: "plus", gridColumn: 0})
+    view.cols[COLS.DOMAIN_PRIMES].subColumns = newSubcols
+
     const newSubrows = []
-    for (let i = 1; i <= dimensionality; i++) {
-        newSubrows.push({ name: `p_${i}`, gridRow: 0 })
+    for (let i = 0; i < dimensionality; i++) {
+        newSubrows.push({type: "gridded", index: i, gridRow: 0})
     }
-    newSubrows.push({ name: "plus", gridRow: 0})
-    view.rows[ ROWS.INTERVALS ].subrows = newSubrows
+    newSubrows.push({type: "plus", gridRow: 0})
+    view.rows[ROWS.INTERVALS].subRows = newSubrows
 }
 
 const updateGrid = (view: View) => {
     let gridRow = 0
     view.rows.forEach(row => {
-        if (row.subrows[0].name !== "top padding") {
-            row.subrows.unshift({
-                name: "top padding",
+        if (row.subRows[0].type !== "padding") {
+            row.subRows.unshift({
+                type: "padding",
+                side: "top",
                 gridRow: 0,
             })
-            row.subrows.push({
-                name: "bottom padding",
+            row.subRows.push({
+                type: "padding",
+                side: "bottom",
                 gridRow: 0,
             })
-            row.subrows.push({
-                name: "vertical margin",
+            row.subRows.push({
+                type: "margin",
+                side: "vertical",
                 gridRow: 0,
             })
         }
 
-        row.subrows.forEach(subrow => {
-            subrow.gridRow = gridRow
+        row.subRows.forEach(subRow => {
+            subRow.gridRow = gridRow
             gridRow++
         })
     })
 
-    let gridCol = 0
+    let gridColumn = 0
     view.cols.forEach(col => {
-        if (col.subcols[0].name !== "left padding") {
-            col.subcols.unshift({
-                name: "left padding",
-                gridCol: 0,
+        if (col.subColumns[0].type !== "padding") {
+            col.subColumns.unshift({
+                type: "padding",
+                side: "left",
+                gridColumn: 0,
             })
-            col.subcols.push({
-                name: "right padding",
-                gridCol: 0,
+            col.subColumns.push({
+                type: "padding",
+                side: "right",
+                gridColumn: 0,
             })
-            col.subcols.push({
-                name: "horizontal margin",
-                gridCol: 0,
+            col.subColumns.push({
+                type: "margin",
+                side: "horizontal",
+                gridColumn: 0,
             })
         }
 
-        col.subcols.forEach(subcol => {
-            subcol.gridCol = gridCol
-            gridCol++
+        col.subColumns.forEach(subColumn => {
+            subColumn.gridColumn = gridColumn
+            gridColumn++
         })
     })
 

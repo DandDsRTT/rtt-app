@@ -1,9 +1,9 @@
 import {configureStore, Store} from "@reduxjs/toolkit";
-import {reducer} from "../../../src/state/rootReducer";
+import {reducer} from "../src/state/rootReducer";
 import React, {PropsWithChildren} from "react";
 import {Provider} from "react-redux";
 import {fireEvent, render, screen} from "@testing-library/react";
-import {App} from "../../../src/components/App";
+import {App} from "../src/components/App";
 import {test} from "@jest/globals";
 
 export const renderWithProviders = (ui: React.ReactElement, {store}: {store: Store}) => ({
@@ -71,7 +71,7 @@ const getMappingValues = (): number[][] => {
     const mappingCells: HTMLInputElement[] = screen.getAllByTitle(/mapping-cell-row-\d+-col-\d+/)
     const mappingValues = []
     let currentMappingRowValues: number[] = []
-    let currentMappingRowIndex = 1
+    let currentMappingRowIndex = 0
     for (const mappingCell of mappingCells) {
         const [mappingRowIndex, mappingColIndex] = mappingCell.title.match(/(\d+)/g)!.map(parseInt)
         if (mappingRowIndex > currentMappingRowIndex) {
@@ -90,7 +90,7 @@ const getCommaBasisValues = (): number[][] => {
     const commaBasisCells: HTMLInputElement[] = screen.getAllByTitle(/comma-basis-cell-col-\d+-row-\d+/)
     const commaBasisValues = []
     let currentCommaBasisCol: number[] = []
-    let currentCommaBasisColIndex = 1
+    let currentCommaBasisColIndex = 0
     for (const commaBasisCell of commaBasisCells) {
         const [commaBasisColIndex, mappingColIndex] = commaBasisCell.title.match(/(\d+)/g)!.map(parseInt)
         if (commaBasisColIndex > currentCommaBasisColIndex) {

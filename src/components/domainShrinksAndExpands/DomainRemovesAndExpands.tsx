@@ -1,31 +1,31 @@
 import React from "react"
 import {handleMinus, handlePlus} from "../domain/handlers"
 import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {blank} from "../block/blank"
+import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
 const DomainRemovesAndExpands = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
-    return PaddingAndMarginWrapper({row, col, elementFunction: DomainRemoveOrExpandElement, dispatch})
+    return PaddingAndMarginWrapper({row, col, Element: DomainRemoveOrExpandElement, dispatch})
 }
 
-const DomainRemoveOrExpandElement = ({subrow, subcol, key, dispatch}: ElementProps): React.JSX.Element => {
-    const gridRow = subrow.gridRow
-    const gridCol = subcol.gridCol
+const DomainRemoveOrExpandElement = ({subRow, subColumn, key, dispatch}: ElementProps): React.JSX.Element => {
+    const gridRow = subRow.gridRow
+    const gridColumn = subColumn.gridColumn
     
     if (!dispatch) throw new Error("No dispatch.")
 
-    if (subrow.name === "text") {
-        return blank(gridRow, gridCol, key)
+    if (subRow.type === "text") {
+        return <Blank {...{gridRow, gridColumn, key}}/>
     } else {
-        if (subcol.name.slice(0, 2) === "p_") {
+        if (subColumn.type === "gridded") {
             return (
                 <div
                     className="square-box"
                     key={key}
                     style={{
-                        gridRow: gridRow,
-                        gridColumn: gridCol,
+                        gridRow,
+                        gridColumn,
                     }}
                 >
                     <button
@@ -34,14 +34,14 @@ const DomainRemoveOrExpandElement = ({subrow, subcol, key, dispatch}: ElementPro
                     </button>
                 </div>
             )
-        } else if (subcol.name === "plus") {
+        } else if (subColumn.type === "plus") {
             return (
                 <div
                     className="square-box"
                     key={key}
                     style={{
-                        gridRow: gridRow,
-                        gridColumn: gridCol,
+                        gridRow,
+                        gridColumn,
                     }}
                 >
                     <button
@@ -51,7 +51,7 @@ const DomainRemoveOrExpandElement = ({subrow, subcol, key, dispatch}: ElementPro
                 </div>
             )
         } else {
-            return blank(gridRow, gridCol, key)
+            return <Blank {...{gridRow, gridColumn, key}}/>
         }
     }
 }

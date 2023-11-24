@@ -3,23 +3,23 @@ import {handleMappingElementChange} from "./handlers"
 import {useSelector} from "react-redux"
 import {ObjectState} from "../../state/types"
 import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {blank} from "../block/blank"
+import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
 const Mapping = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.mapping)
 
-    return PaddingAndMarginWrapper({row, col, elementFunction: MappingElement, dispatch, matrix})
+    return PaddingAndMarginWrapper({row, col, Element: MappingElement, dispatch, matrix})
 }
 
-const MappingElement = ({subrow, subcol, key, dispatch, matrix: mapping}: ElementProps): React.JSX.Element => {
-    const gridRow = subrow.gridRow
-    const gridCol = subcol.gridCol
+const MappingElement = ({subRow, subColumn, key, dispatch, matrix: mapping}: ElementProps): React.JSX.Element => {
+    const gridRow = subRow.gridRow
+    const gridColumn = subColumn.gridColumn
 
-    if (subcol.name.slice(0, 2) === "p_" && subrow.name.slice(0, 2) === "g_") {
-        const generatorIndex = parseInt(subrow.name.replace("g_", "")) - 1
-        const primeIndex = parseInt(subcol.name.replace("p_", "")) - 1
+    if (subColumn.type === "gridded" && subRow.type === "gridded") {
+        const generatorIndex = subRow.index!
+        const primeIndex = subColumn.index!
         if (!mapping) throw new Error("No mapping.")
         if (!dispatch) throw new Error("No dispatch.")
         const mappingElement = mapping[generatorIndex][primeIndex]
@@ -28,20 +28,17 @@ const MappingElement = ({subrow, subcol, key, dispatch, matrix: mapping}: Elemen
             <div
                 className="square-input"
                 key={key}
-                style={{
-                    gridRow: gridRow,
-                    gridColumn: gridCol,
-                }}
+                style={{gridRow, gridColumn}}
             >
                 <input
                     value={mappingElement}
-                    title={`mapping-cell-row-${generatorIndex + 1}-col-${primeIndex + 1}`}
+                    title={`mapping-cell-row-${generatorIndex}-col-${primeIndex}`}
                     onChange={input => handleMappingElementChange(dispatch, mapping, input, [generatorIndex, primeIndex])}
                 />
             </div>
         )
     } else {
-        return blank(gridRow, gridCol, key)
+        return <Blank {...{gridRow, gridColumn, key}}/>
     }
 }
 

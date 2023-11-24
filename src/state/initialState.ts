@@ -9,9 +9,9 @@ const initialState: ObjectState = {
             {
                 name: "col names",
                 viewState: "visible",
-                subrows: [
+                subRows: [
                     {
-                        name: "main",
+                        type: "main",
                         gridRow: 0,
                     },
                 ],
@@ -19,9 +19,9 @@ const initialState: ObjectState = {
             {
                 name: "collapses",
                 viewState: "visible",
-                subrows: [
+                subRows: [
                     {
-                        name: "main",
+                        type: "main",
                         gridRow: 0,
                     },
                 ],
@@ -29,13 +29,13 @@ const initialState: ObjectState = {
             {
                 name: "cardinality",
                 viewState: "collapsed",
-                subrows: [
+                subRows: [
                     {
-                        name: "main",
+                        type: "main",
                         gridRow: 0,
                     },
                     {
-                        name: "name",
+                        type: "name",
                         gridRow: 0,
                     },
                 ],
@@ -43,9 +43,9 @@ const initialState: ObjectState = {
             {
                 name: "removes and expands",
                 viewState: "visible",
-                subrows: [
+                subRows: [
                     {
-                        name: "main",
+                        type: "main",
                         gridRow: 0,
                     },
                 ],
@@ -53,13 +53,14 @@ const initialState: ObjectState = {
             {
                 name: "header",
                 viewState: "visible",
-                subrows: [
+                subRows: [
                     {
-                        name: "gridded",
+                        type: "gridded",
+                        index: 0,
                         gridRow: 0,
                     },
                     {
-                        name: "text",
+                        type: "text",
                         gridRow: 0,
                     },
                 ],
@@ -67,9 +68,9 @@ const initialState: ObjectState = {
             {
                 name: "units",
                 viewState: "hidden",
-                subrows: [
+                subRows: [
                     {
-                        name: "main",
+                        type: "main",
                         gridRow: 0,
                     },
                 ],
@@ -77,21 +78,24 @@ const initialState: ObjectState = {
             {
                 name: "intervals",
                 viewState: "collapsed",
-                subrows: [
+                subRows: [
                     {
-                        name: "p_1",
+                        type: "gridded",
+                        index: 0,
                         gridRow: 0,
                     },
                     {
-                        name: "p_2",
+                        type: "gridded",
+                        index: 1,
                         gridRow: 0,
                     },
                     {
-                        name: "p_3",
+                        type: "gridded",
+                        index: 2,
                         gridRow: 0,
                     },
                     {
-                        name: "plus",
+                        type: "plus",
                         gridRow: 0,
                     },
                 ],
@@ -99,17 +103,19 @@ const initialState: ObjectState = {
             {
                 name: "mapping",
                 viewState: "visible",
-                subrows: [
+                subRows: [
                     {
-                        name: "g_1",
+                        type: "gridded",
+                        index: 0,
                         gridRow: 0,
                     },
                     {
-                        name: "g_2",
+                        type: "gridded",
+                        index: 1,
                         gridRow: 0,
                     },
                     {
-                        name: "plus",
+                        type: "plus",
                         gridRow: 0,
                     },
                 ],
@@ -119,112 +125,117 @@ const initialState: ObjectState = {
             {
                 name: "row names",
                 viewState: "visible",
-                subcols: [
+                subColumns: [
                     {
-                        name: "main",
-                        gridCol: 0,
+                        type: "main",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "collapses",
                 viewState: "visible",
-                subcols: [
+                subColumns: [
                     {
-                        name: "main",
-                        gridCol: 0,
+                        type: "main",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "removes and expands",
                 viewState: "visible",
-                subcols: [
+                subColumns: [
                     {
-                        name: "main",
-                        gridCol: 0,
+                        type: "main",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "header",
                 viewState: "visible",
-                subcols: [
+                subColumns: [
                     {
-                        name: "main",
-                        gridCol: 0,
+                        type: "main",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "units",
                 viewState: "hidden",
-                subcols: [
+                subColumns: [
                     {
-                        name: "main",
-                        gridCol: 0,
+                        type: "main",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "generators",
                 viewState: "hidden",
-                subcols: [
+                subColumns: [
                     {
-                        name: "g_1",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 0,
+                        gridColumn: 0,
                     },
                     {
-                        name: "g_2",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 1,
+                        gridColumn: 0,
                     },
                     {
-                        name: "plus",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 2,
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "domain primes",
                 viewState: "visible",
-                subcols: [
+                subColumns: [
                     {
-                        name: "p_1",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 0,
+                        gridColumn: 0,
                     },
                     {
-                        name: "p_2",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 1,
+                        gridColumn: 0,
                     },
                     {
-                        name: "p_3",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 2,
+                        gridColumn: 0,
                     },
                     {
-                        name: "plus",
-                        gridCol: 0,
+                        type: "plus",
+                        gridColumn: 0,
                     },
                 ],
             },
             {
                 name: "commas",
                 viewState: "collapsed",
-                subcols: [
+                subColumns: [
                     {
-                        name: "c_1",
-                        gridCol: 0,
+                        type: "gridded",
+                        index: 0,
+                        gridColumn: 0,
                     },
                     {
-                        name: "plus",
-                        gridCol: 0,
+                        type: "plus",
+                        gridColumn: 0,
                     },
                 ],
             },
         ],
     },
 }
-
-// TODO: break p_1 into type prime and index 1, or type gridded is better, maybe like full-row or full-col is good
 
 export {
     initialState,

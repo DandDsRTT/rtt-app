@@ -3,23 +3,23 @@ import {handleCommaBasisElementChange} from "./handlers"
 import {useSelector} from "react-redux"
 import {ObjectState} from "../../state/types"
 import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {blank} from "../block/blank"
+import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
 const CommaBasis = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.commaBasis)
 
-    return PaddingAndMarginWrapper({row, col, elementFunction: CommaBasisElement, dispatch, matrix})
+    return PaddingAndMarginWrapper({row, col, Element: CommaBasisElement, dispatch, matrix})
 }
 
-const CommaBasisElement = ({subrow, subcol, key, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
-    const gridRow = subrow.gridRow
-    const gridCol = subcol.gridCol
+const CommaBasisElement = ({subRow, subColumn, key, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
+    const gridRow = subRow.gridRow
+    const gridColumn = subColumn.gridColumn
 
-    if (subrow.name.includes("p_") && subcol.name.includes("c_")) {
-        const commaBasisRowIndex = parseInt(subrow.name.replace("p_", "")) - 1
-        const commaBasisColIndex = parseInt(subcol.name.replace("c_", "")) - 1
+    if (subRow.type === "gridded" && subColumn.type === "gridded") {
+        const commaBasisRowIndex = subRow.index!
+        const commaBasisColIndex = subColumn.index!
         if (!commaBasis) throw new Error("No comma basis.")
         if (!dispatch) throw new Error("No dispatch.")
         const commaBasisElement = commaBasis[commaBasisColIndex][commaBasisRowIndex]
@@ -27,21 +27,18 @@ const CommaBasisElement = ({subrow, subcol, key, dispatch, matrix: commaBasis}: 
         return (
             <div
                 className="square-input"
-                style={{
-                    gridRow: gridRow,
-                    gridColumn: gridCol,
-                }}
+                style={{gridRow, gridColumn}}
                 key={key}
             >
                 <input
                     value={commaBasisElement}
-                    title={`comma-basis-cell-col-${commaBasisColIndex + 1}-row-${commaBasisRowIndex + 1}`}
+                    title={`comma-basis-cell-col-${commaBasisColIndex}-row-${commaBasisRowIndex}`}
                     onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [commaBasisColIndex, commaBasisRowIndex])}
                 />
             </div>
         )
     } else {
-        return blank(gridRow, gridCol, key)
+        return <Blank {...{gridRow, gridColumn, key}}/>
     }
 }
 

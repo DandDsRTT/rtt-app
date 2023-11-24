@@ -16,3 +16,5 @@ root.render(
         <App/>
     </Provider>,
 )
+
+// TODO: now that we're using babel for tests, can I use it for prod too, i.e. get rid of some ts transpilaton package?

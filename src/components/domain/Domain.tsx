@@ -1,42 +1,39 @@
 import React from "react"
 import { PRIMES } from "../../constants"
 import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
-import { blank } from "../block/blank"
+import { Blank } from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
 const Domain = ({row, col}: BlockProps): React.JSX.Element => {
-    return PaddingAndMarginWrapper({row, col, elementFunction: DomainElement })
+    return PaddingAndMarginWrapper({row, col, Element: DomainElement })
 }
 
-const DomainElement = ({subrow, subcol, key}: ElementProps): React.JSX.Element => {
-    const gridRow = subrow.gridRow
-    const gridCol = subcol.gridCol
+const DomainElement = ({subRow, subColumn, key}: ElementProps): React.JSX.Element => {
+    const gridRow = subRow.gridRow
+    const gridColumn = subColumn.gridColumn
 
-    if (subcol.name.includes("p_") && subrow.name === "gridded") {
-        const domainElementIndex = parseInt(subcol.name.replace("p_", "")) - 1
+    if (subColumn.type === "gridded" && subRow.type === "gridded") {
+        const domainElementIndex = subColumn.index!
 
         return (
             <div
                 key={key}
                 className="square-input"
-                style={{
-                    gridRow: gridRow,
-                    gridColumn: gridCol,
-                }}
+                style={{gridRow, gridColumn}}
             >
                 <input
-                    title={`domain-cell-${domainElementIndex+1}`}
+                    title={`domain-cell-${domainElementIndex}`}
                     value={PRIMES[ domainElementIndex ]}
                     onChange={() => {
                     }}
                 />
             </div>
         )
-    } else if (subrow.name === "text") {
-        return blank(gridRow, gridCol, key)
+    } else if (subRow.type === "text") {
+        return <Blank {...{gridRow, gridColumn, key}}/>
     } else {
-        return blank(gridRow, gridCol, key)
+        return <Blank {...{gridRow, gridColumn, key}}/>
     }
 }
 

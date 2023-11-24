@@ -7,36 +7,40 @@ interface ObjectState {
 
 interface View {
     rows: Row[],
-    cols: Col[],
+    cols: Column[],
 }
 
 interface Row {
     name: string,
     viewState: string,
-    subrows: SubRow[],
+    subRows: SubRow[],
 }
 
-interface Col {
+interface Column {
     name: string,
     viewState: string,
-    subcols: SubCol[],
+    subColumns: SubColumn[],
 }
 
 interface SubRow {
-    name: string,
+    type: string,
+    index?: number,
+    side?: string,
     gridRow: number,
 }
 
-interface SubCol {
-    name: string,
-    gridCol: number,
+interface SubColumn {
+    type: string,
+    index?: number,
+    side?: string,
+    gridColumn: number,
 }
 
 export {
     ObjectState,
     View,
-    Col,
+    Column,
     Row,
-    SubCol,
+    SubColumn,
     SubRow,
 }

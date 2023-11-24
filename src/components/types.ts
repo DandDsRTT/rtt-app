@@ -1,9 +1,9 @@
-import {SubCol, SubRow} from "../state/types";
+import {SubColumn, SubRow} from "../state/types";
 import {Dispatch} from "@reduxjs/toolkit";
 
 interface ElementProps {
-    subrow: SubRow,
-    subcol: SubCol,
+    subRow: SubRow,
+    subColumn: SubColumn,
     key: string,
     dispatch?: Dispatch,
     matrix?: number[][],

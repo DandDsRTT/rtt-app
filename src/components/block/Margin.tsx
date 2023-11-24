@@ -1,43 +1,43 @@
 import React from "react"
 
-const cornerMargin = (gridRow: number, gridCo: number, key: string) => (
+const CornerMargin = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }): React.JSX.Element => (
     <div
         key={key}
         className="corner-margin"
         style={{
-            gridRow: gridRow,
-            gridColumn: gridCo,
+            gridRow,
+            gridColumn,
         }}
     >
     </div>
 )
 
-const verticalMargin = (gridRow: number, gridCo: number, key: string) => (
+const VerticalMargin = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }): React.JSX.Element => (
     <div
         key={key}
         className="vertical-margin"
         style={{
-            gridRow: gridRow,
-            gridColumn: gridCo,
+            gridRow,
+            gridColumn,
         }}
     >
     </div>
 )
 
-const horizontalMargin = (gridRow: number, gridCo: number, key: string) => (
+const HorizontalMargin = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }): React.JSX.Element => (
     <div
         key={key}
         className="horizontal-margin"
         style={{
-            gridRow: gridRow,
-            gridColumn: gridCo,
+            gridRow,
+            gridColumn,
         }}
     >
     </div>
 )
 
 export {
-    cornerMargin,
-    verticalMargin,
-    horizontalMargin,
+    CornerMargin,
+    VerticalMargin,
+    HorizontalMargin,
 }

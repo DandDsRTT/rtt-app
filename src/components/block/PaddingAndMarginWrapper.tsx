@@ -1,50 +1,50 @@
-import {SubCol} from "../../state/types"
-import {cornerPadding, horizontalPadding, verticalPadding} from "./padding"
+import {SubColumn} from "../../state/types"
+import {CornerPadding, HorizontalPadding, VerticalPadding} from "./Padding"
 import React from "react"
-import {cornerMargin, horizontalMargin, verticalMargin} from "./margin"
+import {CornerMargin, HorizontalMargin, VerticalMargin} from "./Margin"
 import {BlockProps} from "./types";
 
-const PaddingAndMarginWrapper = ({row, col, elementFunction, dispatch, matrix}: BlockProps): React.JSX.Element => {
+const PaddingAndMarginWrapper = ({row, col, Element, dispatch, matrix}: BlockProps): React.JSX.Element => {
     let elements: React.JSX.Element[] = []
-    row.subrows.forEach((subrow, rowKey) => {
-        if (subrow.name.includes("padding")) {
-            col.subcols.forEach((subcol: SubCol, colKey: number) => {
-                let gridRow = subrow.gridRow
-                let gridCo = subcol.gridCol
+    row.subRows.forEach((subRow, rowKey) => {
+        if (subRow.type === "padding") {
+            col.subColumns.forEach((subColumn: SubColumn, colKey: number) => {
+                let gridRow = subRow.gridRow
+                let gridColumn = subColumn.gridColumn
                 const key = [rowKey, colKey].join(",")
-                if (subcol.name.includes("margin")) {
-                    elements.push(horizontalMargin(gridRow, gridCo, key))
+                if (subColumn.type === "margin") {
+                    elements.push(<HorizontalMargin {...{gridRow, gridColumn, key}}/>)
                 } else {
-                    if (colKey === 0 || colKey === col.subcols.length - 2) {
-                        elements.push(cornerPadding(gridRow, gridCo, key))
+                    if (colKey === 0 || colKey === col.subColumns.length - 2) {
+                        elements.push(<CornerPadding {...{gridRow, gridColumn, key}}/>)
                     } else {
-                        elements.push(verticalPadding(gridRow, gridCo, key))
+                        elements.push(<VerticalPadding {...{gridRow, gridColumn, key}}/>)
                     }
                 }
             })
-        } else if (subrow.name.includes("margin")) {
-            col.subcols.forEach((subcol: SubCol, colKey: number) => {
-                let gridRow = subrow.gridRow
-                let gridCo = subcol.gridCol
+        } else if (subRow.type === "margin") {
+            col.subColumns.forEach((subColumn: SubColumn, colKey: number) => {
+                let gridRow = subRow.gridRow
+                let gridColumn = subColumn.gridColumn
                 const key = [rowKey, colKey].join(",")
-                if (colKey === col.subcols.length - 1) {
-                    elements.push(cornerMargin(gridRow, gridCo, key))
+                if (colKey === col.subColumns.length - 1) {
+                    elements.push(<CornerMargin {...{gridRow, gridColumn, key}}/>)
                 } else {
-                    elements.push(verticalMargin(gridRow, gridCo, key))
+                    elements.push(<VerticalMargin {...{gridRow, gridColumn, key}}/>)
                 }
             })
         } else {
-            col.subcols.forEach((subcol: SubCol, colKey: number) => {
-                let gridRow = subrow.gridRow
-                let gridCo = subcol.gridCol
+            col.subColumns.forEach((subColumn: SubColumn, colKey: number) => {
+                let gridRow = subRow.gridRow
+                let gridColumn = subColumn.gridColumn
                 const key = [rowKey, colKey].join(",")
 
-                if (subcol.name.includes("padding")) {
-                    elements.push(horizontalPadding(gridRow, gridCo, key))
-                } else if (subcol.name.includes("margin")) {
-                    elements.push(horizontalMargin(gridRow, gridCo, key))
+                if (subColumn.type === "padding") {
+                    elements.push(<HorizontalPadding {...{gridRow, gridColumn, key}}/>)
+                } else if (subColumn.type === "margin") {
+                    elements.push(<HorizontalMargin {...{gridRow, gridColumn, key}}/>)
                 } else {
-                    elements.push(elementFunction({subrow, subcol, key, dispatch, matrix}))
+                    elements.push(<Element {...{subRow, subColumn, key, dispatch, matrix}}/>)
                 }
             })
         }
