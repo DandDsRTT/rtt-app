@@ -1,14 +1,10 @@
-import { Col, Row, SubCol, SubRow } from "../../state/types"
-import { cornerPadding, horizontalPadding, verticalPadding } from "./padding"
+import {SubCol} from "../../state/types"
+import {cornerPadding, horizontalPadding, verticalPadding} from "./padding"
 import React from "react"
-import { cornerMargin, horizontalMargin, verticalMargin } from "./margin"
+import {cornerMargin, horizontalMargin, verticalMargin} from "./margin"
+import {BlockProps} from "./types";
 
-const includePaddingAndMargin = (
-    row: Row,
-    col: Col,
-    elementFunction: (subrow: SubRow, subcol: SubCol, key: string, other: any) => React.JSX.Element,
-    other: any,
-): React.JSX.Element[] => {
+const PaddingAndMarginWrapper = ({row, col, elementFunction, dispatch, matrix}: BlockProps): React.JSX.Element => {
     let elements: React.JSX.Element[] = []
     row.subrows.forEach((subrow, rowKey) => {
         if (subrow.name.includes("padding")) {
@@ -48,15 +44,19 @@ const includePaddingAndMargin = (
                 } else if (subcol.name.includes("margin")) {
                     elements.push(horizontalMargin(gridRow, gridCo, key))
                 } else {
-                    elements.push(elementFunction(subrow, subcol, key, other))
+                    elements.push(elementFunction({subrow, subcol, key, dispatch, matrix}))
                 }
             })
         }
     })
 
-    return elements
+    return (
+        <>
+            {elements}
+        </>
+    )
 }
 
 export {
-    includePaddingAndMargin,
+    PaddingAndMarginWrapper,
 }

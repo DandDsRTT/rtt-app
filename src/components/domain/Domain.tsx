@@ -1,14 +1,15 @@
 import React from "react"
 import { PRIMES } from "../../constants"
-import { Col, Row, SubCol, SubRow } from "../../state/types"
-import { includePaddingAndMargin } from "../block/includePaddingAndMargin"
+import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
 import { blank } from "../block/blank"
+import {ElementProps} from "../types";
+import {BlockProps} from "../block/types";
 
-const getDomainElements = (row: Row, col: Col): React.JSX.Element[] => {
-    return includePaddingAndMargin(row, col, getDomainElement, {})
+const Domain = ({row, col}: BlockProps): React.JSX.Element => {
+    return PaddingAndMarginWrapper({row, col, elementFunction: DomainElement })
 }
 
-const getDomainElement = (subrow: SubRow, subcol: SubCol, key: string) => {
+const DomainElement = ({subrow, subcol, key}: ElementProps): React.JSX.Element => {
     const gridRow = subrow.gridRow
     const gridCol = subcol.gridCol
 
@@ -40,5 +41,5 @@ const getDomainElement = (subrow: SubRow, subcol: SubCol, key: string) => {
 }
 
 export {
-    getDomainElements,
+    Domain,
 }

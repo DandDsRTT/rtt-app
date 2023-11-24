@@ -1,7 +1,7 @@
 import React from "react"
 import { View } from "../../state/types"
 
-const getBackgroundElements = (view: View) => {
+const Background = ({view}: {view: View}): React.JSX.Element => {
     const domainElements: React.JSX.Element[] = []
     view.rows.forEach((row, rowKey) => {
         view.cols.forEach((col, colKey) => {
@@ -26,9 +26,9 @@ const getBackgroundElements = (view: View) => {
         })
     })
 
-    return domainElements
+    return <>{domainElements}</>
 }
 
 export {
-    getBackgroundElements,
+    Background,
 }

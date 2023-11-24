@@ -1,24 +1,19 @@
 import React from "react"
-import { handleMinus, handlePlus } from "../domain/handlers"
-import { Col, Row, SubCol, SubRow } from "../../state/types"
-import { Dispatch } from "@reduxjs/toolkit"
-import { includePaddingAndMargin } from "../block/includePaddingAndMargin"
-import { blank } from "../block/blank"
+import {handleMinus, handlePlus} from "../domain/handlers"
+import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
+import {blank} from "../block/blank"
+import {ElementProps} from "../types";
+import {BlockProps} from "../block/types";
 
-const getDomainRemovesAndExpandsElements = (row: Row, col: Col, dispatch: Dispatch) => {
-    return includePaddingAndMargin(row, col, getDomainRemoveOrExpandElement, { dispatch })
+const DomainRemovesAndExpands = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
+    return PaddingAndMarginWrapper({row, col, elementFunction: DomainRemoveOrExpandElement, dispatch})
 }
 
-const getDomainRemoveOrExpandElement = (
-    subrow: SubRow,
-    subcol: SubCol,
-    key: string,
-    { dispatch }: {
-        dispatch: Dispatch
-    },
-) => {
+const DomainRemoveOrExpandElement = ({subrow, subcol, key, dispatch}: ElementProps): React.JSX.Element => {
     const gridRow = subrow.gridRow
     const gridCol = subcol.gridCol
+    
+    if (!dispatch) throw new Error("No dispatch.")
 
     if (subrow.name === "text") {
         return blank(gridRow, gridCol, key)
@@ -62,5 +57,5 @@ const getDomainRemoveOrExpandElement = (
 }
 
 export {
-    getDomainRemovesAndExpandsElements,
+    DomainRemovesAndExpands,
 }
