@@ -19,7 +19,7 @@ const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][
             .replaceAll("{", "[")
             .replaceAll("}", "]")
         unparsedMapping = JSON.parse(unparsedMapping)
-        dispatch({ type: "changeMapping", data: unparsedMapping })
+        dispatch({ type: "changeMapping", mapping: unparsedMapping })
     }).catch(e => {
         console.error("axios error: ", e)
     })

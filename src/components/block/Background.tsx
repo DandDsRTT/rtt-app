@@ -2,7 +2,7 @@ import React from "react"
 import { View } from "../../state/types"
 
 const Background = ({view}: {view: View}): React.JSX.Element => {
-    const domainElements: React.JSX.Element[] = []
+    const backgroundElements: React.JSX.Element[] = []
     view.rows.forEach((row, rowKey) => {
         view.cols.forEach((col, colKey) => {
             const rowStart = row.subRows[ 0 ].gridRow
@@ -11,7 +11,7 @@ const Background = ({view}: {view: View}): React.JSX.Element => {
             const colEnd = col.subColumns[ col.subColumns.length - 1 ].gridColumn + 1
             const key = [rowKey, colKey].join(",")
 
-            domainElements.push(
+            backgroundElements.push(
                 <div
                     key={key}
                     style={{
@@ -26,7 +26,7 @@ const Background = ({view}: {view: View}): React.JSX.Element => {
         })
     })
 
-    return <>{domainElements}</>
+    return <>{backgroundElements}</>
 }
 
 export {

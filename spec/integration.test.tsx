@@ -2,11 +2,14 @@ import {configureStore, Store} from "@reduxjs/toolkit";
 import {reducer} from "../src/state/rootReducer";
 import React, {PropsWithChildren} from "react";
 import {Provider} from "react-redux";
-import {fireEvent, render, screen} from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {App} from "../src/components/App";
-import {test} from "@jest/globals";
+import {beforeEach, describe, expect, jest, test} from "@jest/globals";
+import {default as axios} from 'axios'
 
-export const renderWithProviders = (ui: React.ReactElement, {store}: {store: Store}) => ({
+jest.mock("axios");
+
+export const renderWithProviders = (ui: React.ReactElement, {store}: { store: Store }) => ({
     store,
     ...render(ui, {wrapper: ({children}: PropsWithChildren<{}>) => <Provider store={store}>{children}</Provider>})
 })
@@ -40,7 +43,7 @@ describe("integration test", () => {
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1, 0]])
         })
     })
-    
+
     describe("shrinking the domain", () => {
         const shrinkDomain = () => fireEvent.click(screen.getAllByRole('button', {name: "-"})[0])
 
@@ -61,6 +64,24 @@ describe("integration test", () => {
             shrinkDomain()
             expect(getCommaBasisValues()).toEqual([[-4, 4]]) // should be reduced to [[-1,1]]
         })
+    })
+
+    describe("changing the mapping", () => {
+        const changeMapping = () => {
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{-5}, {5}, {1}}]"}));
+            fireEvent.change(screen.getByTitle("mapping-cell-row-1-col-2"), {target: {value: '5'}})
+        }
+
+        test("it updates the comma basis", async () => {
+            expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
+            changeMapping()
+            await waitFor(() => {
+                expect(screen.queryByText('loading...')).not.toBeTruthy();
+            });
+            expect(getCommaBasisValues()).toEqual([[-5, 5, 1]])
+        })
+        
+        // TODO: still need to finish covering the rest of this state change, and the analogous one for comma basis
     })
 })
 
