@@ -2,6 +2,7 @@ import {Action} from "@reduxjs/toolkit";
 
 interface ObjectState {
     dimensionality: number,
+    rank: number,
     mapping: number[][],
     commaBasis: number[][],
     view: View,
@@ -46,6 +47,14 @@ interface ChangeCommaBasisAction extends Action {
     commaBasis: number[][],
 }
 
+interface ExpandDomainAction extends Action {
+    commaBasis: number[][],
+}
+
+interface ShrinkDomainAction extends Action {
+    commaBasis: number[][],
+}
+
 export {
     ObjectState,
     View,
@@ -55,4 +64,6 @@ export {
     SubRow,
     ChangeMappingAction,
     ChangeCommaBasisAction,
+    ExpandDomainAction,
+    ShrinkDomainAction,
 }

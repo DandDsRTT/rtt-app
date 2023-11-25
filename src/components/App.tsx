@@ -12,14 +12,14 @@ const App = (): React.JSX.Element => {
     const view = useSelector((state: ObjectState) => state.view)
     const dispatch = useDispatch()
     
-    const domainProps = {row: view.rows[ROWS.HEADER], col: view.cols[COLS.DOMAIN_PRIMES]}
+    const domainProps = {row: view.rows[ROWS.HEADER], column: view.cols[COLS.DOMAIN_PRIMES]}
     const domainRemovesAndExpandsProps = {
         row: view.rows[ROWS.REMOVES_AND_EXPANDS],
-        col: view.cols[COLS.DOMAIN_PRIMES],
+        column: view.cols[COLS.DOMAIN_PRIMES],
         dispatch
     }
-    const mappingProps = {row: view.rows[ROWS.MAPPING], col: view.cols[COLS.DOMAIN_PRIMES], dispatch}
-    const commaBasisProps = {row: view.rows[ROWS.INTERVALS], col: view.cols[COLS.COMMAS], dispatch}
+    const mappingProps = {row: view.rows[ROWS.MAPPING], column: view.cols[COLS.DOMAIN_PRIMES], dispatch}
+    const commaBasisProps = {row: view.rows[ROWS.INTERVALS], column: view.cols[COLS.COMMAS], dispatch}
 
     return (
         <div className="container">

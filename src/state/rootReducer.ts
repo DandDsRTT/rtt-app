@@ -1,49 +1,104 @@
 import {initialState} from "./initialState"
-import {Action, createReducer} from "@reduxjs/toolkit"
+import {createReducer} from "@reduxjs/toolkit"
 import {COLS, ROWS} from "../constants"
-import {ChangeCommaBasisAction, ChangeMappingAction, View} from "./types"
+import {
+    ChangeCommaBasisAction,
+    ChangeMappingAction,
+    ExpandDomainAction,
+    ObjectState,
+    ShrinkDomainAction,
+    View
+} from "./types"
 
 const reducer = createReducer(initialState, (builder) => {
     builder
-        .addCase("expandDomain", (state) => {
+        .addCase("expandDomain", (state, action: ExpandDomainAction) => {
             state.dimensionality = state.dimensionality + 1
-            state.mapping = state.mapping.map((mappingRow: number[]) => [...mappingRow, 0])
-            state.commaBasis = state.commaBasis.map((comma: number[]) => [...comma, 0])
+            state.rank = state.rank + 1
+            updateCommaBasis(state, action.commaBasis)
             updateDomain(state.view, state.dimensionality)
+            updateRank(state.view, state.rank)
             updateGrid(state.view)
         })
-        .addCase("shrinkDomain", (state) => {
+        .addCase("shrinkDomain", (state, action: ShrinkDomainAction) => {
             state.dimensionality = state.dimensionality - 1
-            state.mapping = state.mapping.map((mappingRow: number[]) => mappingRow.slice(0, state.dimensionality))
-            state.commaBasis = state.commaBasis.map((comma: number[]) => comma.slice(0, state.dimensionality))
+            state.rank = state.rank - 1
+            updateCommaBasis(state, action.commaBasis)
             updateDomain(state.view, state.dimensionality)
+            updateRank(state.view, state.rank)
             updateGrid(state.view)
         })
         .addCase("changeMapping", (state, action: ChangeMappingAction) => {
-            state.mapping = action.mapping
+            updateMapping(state, action.mapping)
+            updateDomain(state.view, state.dimensionality)
+            updateRank(state.view, state.rank)
+            updateGrid(state.view)
         })
         .addCase("changeCommaBasis", (state, action: ChangeCommaBasisAction) => {
-            state.commaBasis = action.commaBasis
+            updateCommaBasis(state, action.commaBasis)
+            updateDomain(state.view, state.dimensionality)
+            updateRank(state.view, state.rank)
+            updateGrid(state.view)
         })
         .addCase("initializeGrid", (state) => {
             updateGrid(state.view)
         })
 })
 
-const updateDomain = (view: View, dimensionality: number) => {
-    const newSubcols = []
-    for (let i = 0; i < dimensionality; i++) {
-        newSubcols.push({type: "gridded", index: i, gridColumn: 0})
-    }
-    newSubcols.push({type: "plus", gridColumn: 0})
-    view.cols[COLS.DOMAIN_PRIMES].subColumns = newSubcols
+const updateCommaBasis = (state: ObjectState, newCommaBasis: number[][]) => {
+    newCommaBasis.forEach((column, columnIndex) => {
+        column.forEach((cell, rowIndex) => {
+            state.commaBasis[columnIndex] ||= []
+            state.commaBasis[columnIndex][rowIndex] = cell
+        })
+    })
+    while (state.commaBasis.length > newCommaBasis.length) state.commaBasis.pop()
+    while (state.commaBasis[0].length > newCommaBasis[0].length) state.commaBasis.map(comma => {
+        comma.pop()
+        return comma
+    })
+}
 
-    const newSubrows = []
+const updateMapping = (state: ObjectState, newMapping: number[][]) => {
+    newMapping.forEach((row, rowIndex) => {
+        row.forEach((cell, columnIndex) => {
+            state.mapping[rowIndex] ||= []
+            state.mapping[rowIndex][columnIndex] = cell
+        })
+    })
+    while (state.mapping.length > newMapping.length) state.mapping.pop()
+    while (state.mapping[0].length > newMapping[0].length) state.mapping.map(comma => {
+        comma.pop()
+        return comma
+    })
+}
+
+const updateDomain = (view: View, dimensionality: number) => {
+    view.cols[COLS.DOMAIN_PRIMES].subColumns.length = 0
     for (let i = 0; i < dimensionality; i++) {
-        newSubrows.push({type: "gridded", index: i, gridRow: 0})
+        view.cols[COLS.DOMAIN_PRIMES].subColumns.push({type: "gridded", index: i, gridColumn: 0})
     }
-    newSubrows.push({type: "plus", gridRow: 0})
-    view.rows[ROWS.INTERVALS].subRows = newSubrows
+    view.cols[COLS.DOMAIN_PRIMES].subColumns.push({type: "plus", gridColumn: 0})
+
+    view.rows[ROWS.INTERVALS].subRows.length = 0
+    for (let i = 0; i < dimensionality; i++) {
+        view.rows[ROWS.INTERVALS].subRows.push({type: "gridded", index: i, gridRow: 0})
+    }
+    view.rows[ROWS.INTERVALS].subRows.push({type: "plus", gridRow: 0})
+}
+
+const updateRank = (view: View, rank: number) => {
+    view.cols[COLS.GENERATORS].subColumns.length = 0
+    for (let i = 0; i < rank; i++) {
+        view.cols[COLS.GENERATORS].subColumns.push({type: "gridded", index: i, gridColumn: 0})
+    }
+    view.cols[COLS.GENERATORS].subColumns.push({type: "plus", gridColumn: 0})
+
+    view.rows[ROWS.MAPPING].subRows.length = 0
+    for (let i = 0; i < rank; i++) {
+        view.rows[ROWS.MAPPING].subRows.push({type: "gridded", index: i, gridRow: 0})
+    }
+    view.rows[ROWS.MAPPING].subRows.push({type: "plus", gridRow: 0})
 }
 
 const updateGrid = (view: View) => {
@@ -74,26 +129,26 @@ const updateGrid = (view: View) => {
     })
 
     let gridColumn = 0
-    view.cols.forEach(col => {
-        if (col.subColumns[0].type !== "padding") {
-            col.subColumns.unshift({
+    view.cols.forEach(column => {
+        if (column.subColumns[0].type !== "padding") {
+            column.subColumns.unshift({
                 type: "padding",
                 side: "left",
                 gridColumn: 0,
             })
-            col.subColumns.push({
+            column.subColumns.push({
                 type: "padding",
                 side: "right",
                 gridColumn: 0,
             })
-            col.subColumns.push({
+            column.subColumns.push({
                 type: "margin",
                 side: "horizontal",
                 gridColumn: 0,
             })
         }
 
-        col.subColumns.forEach(subColumn => {
+        column.subColumns.forEach(subColumn => {
             subColumn.gridColumn = gridColumn
             gridColumn++
         })

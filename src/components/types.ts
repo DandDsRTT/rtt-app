@@ -6,6 +6,7 @@ interface ElementProps {
     subColumn: SubColumn,
     dispatch?: Dispatch,
     matrix?: number[][],
+    dimensionality?: number,
 }
 
 export {

@@ -7,10 +7,10 @@ import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
-const CommaBasis = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
+const CommaBasis = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.commaBasis)
 
-    return PaddingAndMarginWrapper({row, col, Element: CommaBasisElement, dispatch, matrix})
+    return PaddingAndMarginWrapper({row, column, Element: CommaBasisElement, dispatch, matrix})
 }
 
 const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
@@ -19,10 +19,10 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: El
 
     if (subRow.type === "gridded" && subColumn.type === "gridded") {
         const commaBasisRowIndex = subRow.index!
-        const commaBasisColIndex = subColumn.index!
+        const commaBasisColumnIndex = subColumn.index!
         if (!commaBasis) throw new Error("No comma basis.")
         if (!dispatch) throw new Error("No dispatch.")
-        const commaBasisElement = commaBasis[commaBasisColIndex][commaBasisRowIndex]
+        const commaBasisElement = commaBasis[commaBasisColumnIndex][commaBasisRowIndex]
         
         return (
             <div
@@ -31,8 +31,8 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: El
             >
                 <input
                     value={commaBasisElement}
-                    title={`comma-basis-cell-col-${commaBasisColIndex}-row-${commaBasisRowIndex}`}
-                    onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [commaBasisColIndex, commaBasisRowIndex])}
+                    title={`comma-basis-cell-column-${commaBasisColumnIndex}-row-${commaBasisRowIndex}`}
+                    onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [commaBasisColumnIndex, commaBasisRowIndex])}
                 />
             </div>
         )

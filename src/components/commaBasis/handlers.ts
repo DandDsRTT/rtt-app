@@ -5,10 +5,14 @@ import { convertCommaBasisToEbk } from "../../utilities"
 import { Dispatch } from "@reduxjs/toolkit"
 
 const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][], input: React.ChangeEvent<HTMLInputElement>, commaBasisAddress: number[]) => {
-    const [colIndex, rowIndex] = commaBasisAddress
+    const [columnIndex, rowIndex] = commaBasisAddress
     const newCommaBasis = JSON.parse(JSON.stringify(commaBasis))
-    newCommaBasis[ colIndex ][ rowIndex ] = parseInt(input.target.value)
+    newCommaBasis[ columnIndex ][ rowIndex ] = parseInt(input.target.value)
     dispatch({ type: "changeCommaBasis", commaBasis: newCommaBasis })
+    
+    const loadingDiv = document.createElement("div");
+    loadingDiv.innerText = "loading..."
+    document.body.appendChild(loadingDiv)
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -20,6 +24,7 @@ const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][
             .replaceAll("}", "]")
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({ type: "changeMapping", mapping: unparsedMapping })
+        document.body.removeChild(loadingDiv)
     }).catch(e => {
         console.error("axios error: ", e)
     })

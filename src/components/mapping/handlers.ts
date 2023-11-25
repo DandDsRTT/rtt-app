@@ -7,9 +7,9 @@ import {Simulate} from "react-dom/test-utils";
 import load = Simulate.load;
 
 const handleMappingElementChange = (dispatch: Dispatch, mapping: number[][], input: React.ChangeEvent<HTMLInputElement>, mappingAddress: number[]) => {
-    const [rowIndex, colIndex] = mappingAddress
+    const [rowIndex, columnIndex] = mappingAddress
     const newMapping = JSON.parse(JSON.stringify(mapping))
-    newMapping[ rowIndex ][ colIndex ] = parseInt(input.target.value)
+    newMapping[ rowIndex ][ columnIndex ] = parseInt(input.target.value)
     dispatch({ type: "changeMapping", mapping: newMapping })
     
     const loadingDiv = document.createElement("div");

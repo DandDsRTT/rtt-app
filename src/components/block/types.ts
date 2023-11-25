@@ -5,10 +5,11 @@ import {Dispatch} from "@reduxjs/toolkit";
 
 interface BlockProps {
     row: Row,
-    col: Column,
+    column: Column,
     Element?: (elementProps: ElementProps) => React.JSX.Element,
     dispatch?: Dispatch,
-    matrix?: number[][];
+    matrix?: number[][],
+    dimensionality?: number,
 }
 
 export {

@@ -5,8 +5,8 @@ import { Blank } from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 
-const Domain = ({row, col}: BlockProps): React.JSX.Element => {
-    return PaddingAndMarginWrapper({row, col, Element: DomainElement })
+const Domain = ({row, column}: BlockProps): React.JSX.Element => {
+    return PaddingAndMarginWrapper({row, column, Element: DomainElement })
 }
 
 const DomainElement = ({subRow, subColumn}: ElementProps): React.JSX.Element => {
