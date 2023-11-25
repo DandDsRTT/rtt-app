@@ -1,7 +1,7 @@
 import {initialState} from "./initialState"
 import {Action, createReducer} from "@reduxjs/toolkit"
 import {COLS, ROWS} from "../constants"
-import {View} from "./types"
+import {ChangeCommaBasisAction, ChangeMappingAction, View} from "./types"
 
 const reducer = createReducer(initialState, (builder) => {
     builder
@@ -19,13 +19,11 @@ const reducer = createReducer(initialState, (builder) => {
             updateDomain(state.view, state.dimensionality)
             updateGrid(state.view)
         })
-        .addCase("changeMapping", (state, action: Action<"changeMapping">) => {
-            // @ts-ignore
-            state.mapping = action.data
+        .addCase("changeMapping", (state, action: ChangeMappingAction) => {
+            state.mapping = action.mapping
         })
-        .addCase("changeCommaBasis", (state, action) => {
-            // @ts-ignore
-            state.commaBasis = action.data
+        .addCase("changeCommaBasis", (state, action: ChangeCommaBasisAction) => {
+            state.commaBasis = action.commaBasis
         })
         .addCase("initializeGrid", (state) => {
             updateGrid(state.view)
@@ -100,9 +98,7 @@ const updateGrid = (view: View) => {
             gridColumn++
         })
     })
-
-    // console.log(current(view))
-
+    
     return view
 }
 

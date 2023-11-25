@@ -13,7 +13,7 @@ const CommaBasis = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
     return PaddingAndMarginWrapper({row, col, Element: CommaBasisElement, dispatch, matrix})
 }
 
-const CommaBasisElement = ({subRow, subColumn, key, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
+const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -28,7 +28,6 @@ const CommaBasisElement = ({subRow, subColumn, key, dispatch, matrix: commaBasis
             <div
                 className="square-input"
                 style={{gridRow, gridColumn}}
-                key={key}
             >
                 <input
                     value={commaBasisElement}
@@ -38,7 +37,7 @@ const CommaBasisElement = ({subRow, subColumn, key, dispatch, matrix: commaBasis
             </div>
         )
     } else {
-        return <Blank {...{gridRow, gridColumn, key}}/>
+        return <Blank {...{gridRow, gridColumn}}/>
     }
 }
 

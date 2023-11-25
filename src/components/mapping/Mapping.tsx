@@ -13,7 +13,7 @@ const Mapping = ({row, col, dispatch}: BlockProps): React.JSX.Element => {
     return PaddingAndMarginWrapper({row, col, Element: MappingElement, dispatch, matrix})
 }
 
-const MappingElement = ({subRow, subColumn, key, dispatch, matrix: mapping}: ElementProps): React.JSX.Element => {
+const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -27,7 +27,6 @@ const MappingElement = ({subRow, subColumn, key, dispatch, matrix: mapping}: Ele
         return (
             <div
                 className="square-input"
-                key={key}
                 style={{gridRow, gridColumn}}
             >
                 <input
@@ -38,7 +37,7 @@ const MappingElement = ({subRow, subColumn, key, dispatch, matrix: mapping}: Ele
             </div>
         )
     } else {
-        return <Blank {...{gridRow, gridColumn, key}}/>
+        return <Blank {...{gridRow, gridColumn}}/>
     }
 }
 

@@ -13,12 +13,12 @@ const PaddingAndMarginWrapper = ({row, col, Element, dispatch, matrix}: BlockPro
                 let gridColumn = subColumn.gridColumn
                 const key = [rowKey, colKey].join(",")
                 if (subColumn.type === "margin") {
-                    elements.push(<HorizontalMargin {...{gridRow, gridColumn, key}}/>)
+                    elements.push(<HorizontalMargin {...{gridRow, gridColumn}} key={key}/>)
                 } else {
                     if (colKey === 0 || colKey === col.subColumns.length - 2) {
-                        elements.push(<CornerPadding {...{gridRow, gridColumn, key}}/>)
+                        elements.push(<CornerPadding {...{gridRow, gridColumn}} key={key}/>)
                     } else {
-                        elements.push(<VerticalPadding {...{gridRow, gridColumn, key}}/>)
+                        elements.push(<VerticalPadding {...{gridRow, gridColumn}} key={key}/>)
                     }
                 }
             })
@@ -28,9 +28,9 @@ const PaddingAndMarginWrapper = ({row, col, Element, dispatch, matrix}: BlockPro
                 let gridColumn = subColumn.gridColumn
                 const key = [rowKey, colKey].join(",")
                 if (colKey === col.subColumns.length - 1) {
-                    elements.push(<CornerMargin {...{gridRow, gridColumn, key}}/>)
+                    elements.push(<CornerMargin {...{gridRow, gridColumn}} key={key}/>)
                 } else {
-                    elements.push(<VerticalMargin {...{gridRow, gridColumn, key}}/>)
+                    elements.push(<VerticalMargin {...{gridRow, gridColumn}} key={key}/>)
                 }
             })
         } else {
@@ -40,11 +40,12 @@ const PaddingAndMarginWrapper = ({row, col, Element, dispatch, matrix}: BlockPro
                 const key = [rowKey, colKey].join(",")
 
                 if (subColumn.type === "padding") {
-                    elements.push(<HorizontalPadding {...{gridRow, gridColumn, key}}/>)
+                    elements.push(<HorizontalPadding {...{gridRow, gridColumn}} key={key}/>)
                 } else if (subColumn.type === "margin") {
-                    elements.push(<HorizontalMargin {...{gridRow, gridColumn, key}}/>)
+                    elements.push(<HorizontalMargin {...{gridRow, gridColumn}} key={key}/>)
                 } else {
-                    elements.push(<Element {...{subRow, subColumn, key, dispatch, matrix}}/>)
+                    if (!Element) throw new Error("No Element.")
+                    elements.push(<Element {...{subRow, subColumn, dispatch, matrix}} key={key}/>)
                 }
             })
         }

@@ -1,3 +1,5 @@
+import {Action} from "@reduxjs/toolkit";
+
 interface ObjectState {
     dimensionality: number,
     mapping: number[][],
@@ -36,6 +38,14 @@ interface SubColumn {
     gridColumn: number,
 }
 
+interface ChangeMappingAction extends Action {
+    mapping: number[][],
+}
+
+interface ChangeCommaBasisAction extends Action {
+    commaBasis: number[][],
+}
+
 export {
     ObjectState,
     View,
@@ -43,4 +53,6 @@ export {
     Row,
     SubColumn,
     SubRow,
+    ChangeMappingAction,
+    ChangeCommaBasisAction,
 }

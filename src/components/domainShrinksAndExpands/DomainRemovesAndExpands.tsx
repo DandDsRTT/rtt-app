@@ -9,24 +9,20 @@ const DomainRemovesAndExpands = ({row, col, dispatch}: BlockProps): React.JSX.El
     return PaddingAndMarginWrapper({row, col, Element: DomainRemoveOrExpandElement, dispatch})
 }
 
-const DomainRemoveOrExpandElement = ({subRow, subColumn, key, dispatch}: ElementProps): React.JSX.Element => {
+const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
     
     if (!dispatch) throw new Error("No dispatch.")
 
     if (subRow.type === "text") {
-        return <Blank {...{gridRow, gridColumn, key}}/>
+        return <Blank {...{gridRow, gridColumn}}/>
     } else {
         if (subColumn.type === "gridded") {
             return (
                 <div
                     className="square-box"
-                    key={key}
-                    style={{
-                        gridRow,
-                        gridColumn,
-                    }}
+                    style={{gridRow, gridColumn}}
                 >
                     <button
                         onClick={() => handleMinus(dispatch)}
@@ -38,11 +34,7 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, key, dispatch}: Element
             return (
                 <div
                     className="square-box"
-                    key={key}
-                    style={{
-                        gridRow,
-                        gridColumn,
-                    }}
+                    style={{gridRow, gridColumn}}
                 >
                     <button
                         onClick={() => handlePlus(dispatch)}
@@ -51,7 +43,7 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, key, dispatch}: Element
                 </div>
             )
         } else {
-            return <Blank {...{gridRow, gridColumn, key}}/>
+            return <Blank {...{gridRow, gridColumn}}/>
         }
     }
 }

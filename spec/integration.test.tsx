@@ -53,13 +53,13 @@ describe("integration test", () => {
         test("it shrinks the mapping", () => {
             expect(getMappingValues()).toEqual([[1, 1, 0], [0, 1, 4]])
             shrinkDomain()
-            expect(getMappingValues()).toEqual([[1, 1], [0, 1]]) // should not have the 2nd row
+            expect(getMappingValues()).toEqual([[1, 1], [0, 1]]) // should not include this 2nd row
         })
 
         test("it shrinks the comma basis", () => {
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
             shrinkDomain()
-            expect(getCommaBasisValues()).toEqual([[-4, 4]]) // should be [[-1,1]]
+            expect(getCommaBasisValues()).toEqual([[-4, 4]]) // should be reduced to [[-1,1]]
         })
     })
 })

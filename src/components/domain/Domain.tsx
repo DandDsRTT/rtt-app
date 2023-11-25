@@ -9,7 +9,7 @@ const Domain = ({row, col}: BlockProps): React.JSX.Element => {
     return PaddingAndMarginWrapper({row, col, Element: DomainElement })
 }
 
-const DomainElement = ({subRow, subColumn, key}: ElementProps): React.JSX.Element => {
+const DomainElement = ({subRow, subColumn}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -18,7 +18,6 @@ const DomainElement = ({subRow, subColumn, key}: ElementProps): React.JSX.Elemen
 
         return (
             <div
-                key={key}
                 className="square-input"
                 style={{gridRow, gridColumn}}
             >
@@ -31,9 +30,9 @@ const DomainElement = ({subRow, subColumn, key}: ElementProps): React.JSX.Elemen
             </div>
         )
     } else if (subRow.type === "text") {
-        return <Blank {...{gridRow, gridColumn, key}}/>
+        return <Blank {...{gridRow, gridColumn}}/>
     } else {
-        return <Blank {...{gridRow, gridColumn, key}}/>
+        return <Blank {...{gridRow, gridColumn}}/>
     }
 }
 

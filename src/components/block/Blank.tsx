@@ -1,8 +1,7 @@
 import React from "react"
 
-const Blank = ({gridRow, gridColumn, key}: {gridRow: number, gridColumn: number, key: string}): React.JSX.Element =>  (
+const Blank = ({gridRow, gridColumn}: {gridRow: number, gridColumn: number}): React.JSX.Element =>  (
     <div 
-        key={key} 
         className="blank"
         style={{
             gridRow,

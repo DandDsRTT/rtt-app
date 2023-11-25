@@ -8,7 +8,7 @@ const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][
     const [colIndex, rowIndex] = commaBasisAddress
     const newCommaBasis = JSON.parse(JSON.stringify(commaBasis))
     newCommaBasis[ colIndex ][ rowIndex ] = parseInt(input.target.value)
-    dispatch({ type: "changeCommaBasis", data: newCommaBasis })
+    dispatch({ type: "changeCommaBasis", commaBasis: newCommaBasis })
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),

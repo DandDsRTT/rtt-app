@@ -1,37 +1,25 @@
 import React from "react"
 
-const CornerPadding = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }) => (
+const CornerPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
     <div
-        key={key}
         className="corner-padding"
-        style={{
-            gridRow,
-            gridColumn,
-        }}
+        style={{gridRow, gridColumn}}
     >
     </div>
 )
 
-const VerticalPadding = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }) => (
+const VerticalPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
     <div
-        key={key}
         className="vertical-padding"
-        style={{
-            gridRow,
-            gridColumn,
-        }}
+        style={{gridRow, gridColumn}}
     >
     </div>
 )
 
-const HorizontalPadding = ({gridRow, gridColumn, key}: { gridRow: number, gridColumn: number, key: string }) => (
+const HorizontalPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
     <div
-        key={key}
         className="horizontal-padding"
-        style={{
-            gridRow,
-            gridColumn,
-        }}
+        style={{gridRow, gridColumn}}
     >
     </div>
 )

@@ -8,7 +8,7 @@ const handleMappingElementChange = (dispatch: Dispatch, mapping: number[][], inp
     const [rowIndex, colIndex] = mappingAddress
     const newMapping = JSON.parse(JSON.stringify(mapping))
     newMapping[ rowIndex ][ colIndex ] = parseInt(input.target.value)
-    dispatch({ type: "changeMapping", data: newMapping })
+    dispatch({ type: "changeMapping", mapping: newMapping })
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertMappingToEbk(newMapping)),
