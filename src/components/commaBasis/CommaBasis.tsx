@@ -23,7 +23,7 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: El
         if (!commaBasis) throw new Error("No comma basis.")
         if (!dispatch) throw new Error("No dispatch.")
         const commaBasisElement = commaBasis[commaBasisColIndex][commaBasisRowIndex]
-
+        
         return (
             <div
                 className="square-input"

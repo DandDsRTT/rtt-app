@@ -80,8 +80,22 @@ describe("integration test", () => {
             });
             expect(getCommaBasisValues()).toEqual([[-5, 5, 1]])
         })
-        
-        // TODO: still need to finish covering the rest of this state change, and the analogous one for comma basis
+    })
+
+    describe("changing the comma basis", () => {
+        const changeCommaBasis = () => {
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 0, -4}, {0, 1, 5}}]"}));
+            fireEvent.change(screen.getByTitle("comma-basis-cell-col-0-row-1"), {target: {value: '-5'}})
+        }
+
+        test("it updates the mapping", async () => {
+            expect(getMappingValues()).toEqual([[1, 1, 0], [0, 1, 4]])
+            changeCommaBasis()
+            await waitFor(() => {
+                expect(screen.queryByText('loading...')).not.toBeTruthy();
+            });
+            expect(getMappingValues()).toEqual([[1, 0, -4], [0, 1, 5]])
+        })
     })
 })
 
