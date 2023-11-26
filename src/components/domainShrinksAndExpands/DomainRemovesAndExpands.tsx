@@ -11,7 +11,14 @@ const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX
     const commaBasis = useSelector((state: ObjectState) => state.commaBasis)
     const dimensionality = useSelector((state: ObjectState) => state.dimensionality)
 
-    return PaddingAndMarginWrapper({row, column, Element: DomainRemoveOrExpandElement, dispatch, matrix: commaBasis, dimensionality})
+    return PaddingAndMarginWrapper({
+        row, 
+        column, 
+        Element: DomainRemoveOrExpandElement, 
+        dispatch, 
+        matrix: commaBasis, 
+        dimensionality
+    })
 }
 
 const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: commaBasis, dimensionality}: ElementProps): React.JSX.Element => {
@@ -27,25 +34,17 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: comma
     } else {
         if (subColumn.type === "gridded") {
             return (
-                <div
-                    className="square-box"
-                    style={{gridRow, gridColumn}}
-                >
-                    <button
-                        onClick={() => handleMinus(dispatch, commaBasis, dimensionality)}
-                    >-
+                <div className="square-box" style={{gridRow, gridColumn}}>
+                    <button onClick={() => handleMinus({dispatch, matrix: commaBasis, dimensionality})}>
+                        -
                     </button>
                 </div>
             )
         } else if (subColumn.type === "plus") {
             return (
-                <div
-                    className="square-box"
-                    style={{gridRow, gridColumn}}
-                >
-                    <button
-                        onClick={() => handlePlus(dispatch, commaBasis)}
-                    >+
+                <div className="square-box" style={{gridRow, gridColumn}}>
+                    <button onClick={() => handlePlus({dispatch, matrix: commaBasis})}>
+                        +
                     </button>
                 </div>
             )

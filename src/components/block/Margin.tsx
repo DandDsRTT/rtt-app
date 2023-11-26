@@ -1,28 +1,11 @@
 import React from "react"
+import {blankBuilder} from "./Blank";
 
-const CornerMargin = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }): React.JSX.Element => (
-    <div
-        className="corner-margin"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const CornerMargin = blankBuilder("corner-margin")
 
-const VerticalMargin = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }): React.JSX.Element => (
-    <div
-        className="vertical-margin"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const VerticalMargin = blankBuilder("vertical-margin")
 
-const HorizontalMargin = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }): React.JSX.Element => (
-    <div
-        className="horizontal-margin"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const HorizontalMargin = blankBuilder("horizontal-margin")
 
 export {
     CornerMargin,

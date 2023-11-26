@@ -1,15 +1,15 @@
-import { Dispatch } from "@reduxjs/toolkit"
 import axios from "axios";
 import {HOST} from "../../constants";
 import {convertCommaBasisToEbk} from "../../utilities";
+import {DomainHandler} from "./types";
+import {addLoading, removeLoading} from "../loading";
 
-const handlePlus = (dispatch: Dispatch, commaBasis: number[][]) => {
-    const newCommaBasis = commaBasis.map((comma: number[]) => [...comma, 0])
+const handlePlus: DomainHandler = (domainHandlerParameters) => {
+    const {matrix, dispatch} = domainHandlerParameters
+    const newCommaBasis = matrix.map((comma: number[]) => [...comma, 0])
     dispatch({ type: "expandDomain", commaBasis: newCommaBasis })
 
-    const loadingDiv = document.createElement("div");
-    loadingDiv.innerText = "loading..."
-    document.body.appendChild(loadingDiv)
+    const loading = addLoading()
     
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -21,19 +21,19 @@ const handlePlus = (dispatch: Dispatch, commaBasis: number[][]) => {
             .replaceAll("}", "]")
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({ type: "changeMapping", mapping: unparsedMapping })
-        document.body.removeChild(loadingDiv)
+        removeLoading(loading)
     }).catch(e => {
         console.error("axios error: ", e)
     })
 }
 
-const handleMinus = (dispatch: Dispatch, commaBasis: number[][], dimensionality: number) => {
-    const newCommaBasis = commaBasis.map((comma: number[]) => comma.slice(0, dimensionality - 1))
+const handleMinus: DomainHandler = (domainHandlerParameters) => {
+    const {matrix, dispatch, dimensionality} = domainHandlerParameters
+    if (!dimensionality) throw new Error("No dimensionality.")
+    const newCommaBasis = matrix.map((comma: number[]) => comma.slice(0, dimensionality - 1))
     dispatch({ type: "shrinkDomain", commaBasis: newCommaBasis })
     
-    const loadingDiv = document.createElement("div");
-    loadingDiv.innerText = "loading..."
-    document.body.appendChild(loadingDiv)
+    const loading = addLoading()
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -45,10 +45,10 @@ const handleMinus = (dispatch: Dispatch, commaBasis: number[][], dimensionality:
             .replaceAll("}", "]")
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({ type: "changeMapping", mapping: unparsedMapping })
-        document.body.removeChild(loadingDiv)
+        removeLoading(loading)
     }).catch(e => {
         console.error("axios error: ", e)
-    }) // TODO: probably need to DRY a lot of stuff up next
+    })
 }
 
 export {

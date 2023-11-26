@@ -1,28 +1,11 @@
 import React from "react"
+import {blankBuilder} from "./Blank";
 
-const CornerPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
-    <div
-        className="corner-padding"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const CornerPadding = blankBuilder("corner-padding")
 
-const VerticalPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
-    <div
-        className="vertical-padding"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const VerticalPadding = blankBuilder("vertical-padding")
 
-const HorizontalPadding = ({gridRow, gridColumn}: { gridRow: number, gridColumn: number }) => (
-    <div
-        className="horizontal-padding"
-        style={{gridRow, gridColumn}}
-    >
-    </div>
-)
+const HorizontalPadding = blankBuilder("horizontal-padding")
 
 export {
     CornerPadding,

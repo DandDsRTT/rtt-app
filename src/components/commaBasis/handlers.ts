@@ -1,18 +1,18 @@
-import React from "react"
 import axios from "axios"
-import { HOST } from "../../constants"
-import { convertCommaBasisToEbk } from "../../utilities"
-import { Dispatch } from "@reduxjs/toolkit"
+import {HOST} from "../../constants"
+import {convertCommaBasisToEbk} from "../../utilities"
+import {HandlerParameters, Handler} from "../types";
+import {addLoading, removeLoading} from "../loading";
 
-const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][], input: React.ChangeEvent<HTMLInputElement>, commaBasisAddress: number[]) => {
-    const [columnIndex, rowIndex] = commaBasisAddress
-    const newCommaBasis = JSON.parse(JSON.stringify(commaBasis))
-    newCommaBasis[ columnIndex ][ rowIndex ] = parseInt(input.target.value)
-    dispatch({ type: "changeCommaBasis", commaBasis: newCommaBasis })
-    
-    const loadingDiv = document.createElement("div");
-    loadingDiv.innerText = "loading..."
-    document.body.appendChild(loadingDiv)
+const handleCommaBasisCellChange: Handler<HTMLInputElement> = (handlerParameters: HandlerParameters<any>) => {
+    const {address, matrix, element, dispatch} = handlerParameters
+    const [columnIndex, rowIndex] = address
+    const newCommaBasis = JSON.parse(JSON.stringify(matrix))
+   
+    newCommaBasis[columnIndex][rowIndex] = parseInt(element.target.value)
+    dispatch({type: "changeCommaBasis", commaBasis: newCommaBasis})
+
+    const loading = addLoading()
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -23,13 +23,13 @@ const handleCommaBasisElementChange = (dispatch: Dispatch, commaBasis: number[][
             .replaceAll("{", "[")
             .replaceAll("}", "]")
         unparsedMapping = JSON.parse(unparsedMapping)
-        dispatch({ type: "changeMapping", mapping: unparsedMapping })
-        document.body.removeChild(loadingDiv)
+        dispatch({type: "changeMapping", mapping: unparsedMapping})
+        removeLoading(loading)
     }).catch(e => {
         console.error("axios error: ", e)
     })
 }
 
 export {
-    handleCommaBasisElementChange,
+    handleCommaBasisCellChange,
 }

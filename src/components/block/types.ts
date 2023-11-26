@@ -12,6 +12,17 @@ interface BlockProps {
     dimensionality?: number,
 }
 
+interface BlankTypeProps extends AddressProps {
+    className: string,
+}
+
+interface AddressProps {
+    gridRow: number,
+    gridColumn: number,
+}
+
 export {
     BlockProps,
+    BlankTypeProps,
+    AddressProps,
 }

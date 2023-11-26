@@ -17,15 +17,10 @@ const DomainElement = ({subRow, subColumn}: ElementProps): React.JSX.Element => 
         const domainElementIndex = subColumn.index!
 
         return (
-            <div
-                className="square-input"
-                style={{gridRow, gridColumn}}
-            >
+            <div className="square-input" style={{gridRow, gridColumn}}>
                 <input
                     title={`domain-cell-${domainElementIndex}`}
-                    value={PRIMES[ domainElementIndex ]}
-                    onChange={() => {
-                    }}
+                    defaultValue={PRIMES[ domainElementIndex ]}
                 />
             </div>
         )

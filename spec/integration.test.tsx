@@ -1,22 +1,17 @@
 import {configureStore, Store} from "@reduxjs/toolkit";
 import {reducer} from "../src/state/rootReducer";
-import React, {PropsWithChildren} from "react";
-import {Provider} from "react-redux";
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import React from "react";
+import {fireEvent, screen, waitFor} from "@testing-library/react";
 import {App} from "../src/components/App";
 import {beforeEach, describe, expect, jest, test} from "@jest/globals";
 import {default as axios} from 'axios'
+import {getCommaBasisValues, getDomainValues, getMappingValues, renderWithProviders} from "./helpers";
 
 jest.mock("axios");
 
-export const renderWithProviders = (ui: React.ReactElement, {store}: { store: Store }) => ({
-    store,
-    ...render(ui, {wrapper: ({children}: PropsWithChildren<{}>) => <Provider store={store}>{children}</Provider>})
-})
-
-let store: Store
-
 describe("integration test", () => {
+    let store: Store
+
     beforeEach(() => {
         store = configureStore({reducer})
         renderWithProviders(<App/>, {store})
@@ -102,44 +97,3 @@ describe("integration test", () => {
         })
     })
 })
-
-const getDomainValues = (): number[] => (screen.getAllByTitle(/domain-cell-\d+/) as HTMLInputElement[])
-    .map((domainCell: HTMLInputElement) => parseInt(domainCell.value))
-
-const getMappingValues = (): number[][] => {
-    const mappingCells: HTMLInputElement[] = screen.getAllByTitle(/mapping-cell-row-\d+-column-\d+/)
-    const mappingValues = []
-    let currentMappingRowValues: number[] = []
-    let currentMappingRowIndex = 0
-    for (const mappingCell of mappingCells) {
-        const [mappingRowIndex, mappingColumnIndex] = mappingCell.title.match(/(\d+)/g)!.map(parseInt)
-        if (mappingRowIndex > currentMappingRowIndex) {
-            mappingValues.push(currentMappingRowValues)
-            currentMappingRowValues = []
-            currentMappingRowIndex++
-        }
-        currentMappingRowValues.push(parseInt(mappingCell.value))
-    }
-    mappingValues.push(currentMappingRowValues)
-
-    return mappingValues
-}
-
-const getCommaBasisValues = (): number[][] => {
-    const commaBasisCells: HTMLInputElement[] = screen.getAllByTitle(/comma-basis-cell-column-\d+-row-\d+/)
-    const commaBasisValues = []
-    let currentCommaBasisCol: number[] = []
-    let currentCommaBasisColIndex = 0
-    for (const commaBasisCell of commaBasisCells) {
-        const [commaBasisColIndex, mappingColumnIndex] = commaBasisCell.title.match(/(\d+)/g)!.map(parseInt)
-        if (commaBasisColIndex > currentCommaBasisColIndex) {
-            commaBasisValues.push(currentCommaBasisCol)
-            currentCommaBasisCol = []
-            currentCommaBasisColIndex++
-        }
-        currentCommaBasisCol.push(parseInt(commaBasisCell.value))
-    }
-    commaBasisValues.push(currentCommaBasisCol)
-
-    return commaBasisValues
-}

@@ -1,5 +1,5 @@
 import React from "react"
-import {handleCommaBasisElementChange} from "./handlers"
+import {handleCommaBasisCellChange} from "./handlers"
 import {useSelector} from "react-redux"
 import {ObjectState} from "../../state/types"
 import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
@@ -18,21 +18,30 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: El
     const gridColumn = subColumn.gridColumn
 
     if (subRow.type === "gridded" && subColumn.type === "gridded") {
-        const commaBasisRowIndex = subRow.index!
-        const commaBasisColumnIndex = subColumn.index!
+        const commaBasisRowIndex = subRow.index
+        const commaBasisColumnIndex = subColumn.index
         if (!commaBasis) throw new Error("No comma basis.")
         if (!dispatch) throw new Error("No dispatch.")
-        const commaBasisElement = commaBasis[commaBasisColumnIndex][commaBasisRowIndex]
+        if (
+            commaBasisColumnIndex === undefined ||
+            commaBasis[commaBasisColumnIndex] === undefined ||
+            commaBasisRowIndex === undefined ||
+            commaBasis[commaBasisColumnIndex][commaBasisRowIndex] === undefined
+        ) return <Blank {...{gridRow, gridColumn}}/>
+        const commaBasisCell = commaBasis[commaBasisColumnIndex][commaBasisRowIndex]
         
         return (
-            <div
-                className="square-input"
-                style={{gridRow, gridColumn}}
-            >
+            <div className="square-input" style={{gridRow, gridColumn}}>
                 <input
-                    value={commaBasisElement}
+                    value={commaBasisCell}
                     title={`comma-basis-cell-column-${commaBasisColumnIndex}-row-${commaBasisRowIndex}`}
-                    onChange={input => handleCommaBasisElementChange(dispatch, commaBasis, input, [commaBasisColumnIndex, commaBasisRowIndex])}
+                    onChange={
+                    input => handleCommaBasisCellChange({
+                        dispatch,
+                        matrix: commaBasis,
+                        element: input,
+                        address: [commaBasisColumnIndex, commaBasisRowIndex]
+                    })}
                 />
             </div>
         )

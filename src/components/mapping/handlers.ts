@@ -1,20 +1,17 @@
-import React from "react"
 import axios from "axios"
 import { HOST } from "../../constants"
 import { convertMappingToEbk, transposeArray } from "../../utilities"
-import { Dispatch } from "@reduxjs/toolkit"
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
+import {addLoading, removeLoading} from "../loading";
+import {Handler} from "../types";
 
-const handleMappingElementChange = (dispatch: Dispatch, mapping: number[][], input: React.ChangeEvent<HTMLInputElement>, mappingAddress: number[]) => {
-    const [rowIndex, columnIndex] = mappingAddress
-    const newMapping = JSON.parse(JSON.stringify(mapping))
+const handleMappingElementChange: Handler<HTMLInputElement> = (handlerParameters) => {
+    const {address, matrix, dispatch, element: input} = handlerParameters
+    const [rowIndex, columnIndex] = address
+    const newMapping = JSON.parse(JSON.stringify(matrix))
     newMapping[ rowIndex ][ columnIndex ] = parseInt(input.target.value)
     dispatch({ type: "changeMapping", mapping: newMapping })
     
-    const loadingDiv = document.createElement("div");
-    loadingDiv.innerText = "loading..."
-    document.body.appendChild(loadingDiv)
+    const loading = addLoading()
     
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertMappingToEbk(newMapping)),
@@ -27,7 +24,7 @@ const handleMappingElementChange = (dispatch: Dispatch, mapping: number[][], inp
         unparsedCommaBasis = JSON.parse(unparsedCommaBasis)
         unparsedCommaBasis = transposeArray(unparsedCommaBasis)
         dispatch({ type: "changeCommaBasis", commaBasis: unparsedCommaBasis })
-        document.body.removeChild(loadingDiv)
+        removeLoading(loading)
     }).catch(e => {
         console.error("axios error: ", e)
     })
