@@ -12,11 +12,11 @@ const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX
     const dimensionality = useSelector((state: ObjectState) => state.dimensionality)
 
     return PaddingAndMarginWrapper({
-        row, 
-        column, 
-        Element: DomainRemoveOrExpandElement, 
-        dispatch, 
-        matrix: commaBasis, 
+        row,
+        column,
+        Element: DomainRemoveOrExpandElement,
+        dispatch,
+        matrix: commaBasis,
         dimensionality
     })
 }
@@ -32,7 +32,7 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: comma
     if (subRow.type === "text") {
         return <Blank {...{gridRow, gridColumn}}/>
     } else {
-        if (subColumn.type === "gridded") {
+        if (subColumn.type === "gridded" && subColumn.index === dimensionality - 1) {
             return (
                 <div className="square-box" style={{gridRow, gridColumn}}>
                     <button onClick={() => handleMinus({dispatch, matrix: commaBasis, dimensionality})}>
