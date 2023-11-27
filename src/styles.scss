@@ -2,7 +2,7 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0,max-content));
+  grid-template-columns: repeat(auto-fit, minmax(0, max-content));
   grid-auto-rows: auto;
   background-color: #c0c0c0;
   padding-left: 10px;
@@ -15,16 +15,12 @@
 button {
   width: 20px;
   height: 20px;
-  
+
   cursor: pointer;
-  
+
   border: none;
   outline: 1px solid #888888;
   background-color: white;
-  
-  :disabled {
-    background-color: blue;
-  }
 }
 
 .square-box {
@@ -44,9 +40,9 @@ button {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  
+
   background-color: #e0e0e0;
-  
+
   input {
     width: 26px;
     height: 26px;
@@ -82,11 +78,15 @@ input {
 .vertical-margin {
   min-height: 10px;
   background-color: #c0c0c0;
+  display: flex;
+  justify-content: center;
 }
 
 .horizontal-margin {
   min-width: 10px;
   background-color: #c0c0c0;
+  display: flex;
+  align-items: center;
 }
 
 .blank {
@@ -105,4 +105,24 @@ input {
   text-align: center;
   width: 100%;
   padding-top: 10px;
+}
+
+.grid-line-vertical {
+  border: 1px solid #e0e0e0;
+  height: 100%;
+  width: 0;
+}
+
+.grid-line-horizontal {
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  height: 0;
+}
+
+.empty-box-element {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

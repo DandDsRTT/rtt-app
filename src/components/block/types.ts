@@ -20,6 +20,8 @@ interface BlankTypeProps extends AddressProps {
 interface AddressProps {
     gridRow: number,
     gridColumn: number,
+    gridLineHorizontal?: boolean,
+    gridLineVertical?: boolean,
 }
 
 export {

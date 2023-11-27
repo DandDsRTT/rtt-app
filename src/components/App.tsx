@@ -7,29 +7,37 @@ import {DomainRemovesAndExpands} from "./domainShrinksAndExpands/DomainRemovesAn
 import {Mapping} from "./mapping/Mapping"
 import {CommaBasis} from "./commaBasis/CommaBasis"
 import {Undo} from "./undo/Undo";
+import {EmptyBox} from "./empty/EmptyBox";
 
 const App = (): React.JSX.Element => {
     const view = useSelector((state: ObjectState) => state.view)
     const dispatch = useDispatch()
-
-    const domainProps = {row: view.rows[ROWS.HEADER], column: view.cols[COLS.DOMAIN_PRIMES]}
-    const domainRemovesAndExpandsProps = {
-        row: view.rows[ROWS.REMOVES_AND_EXPANDS],
-        column: view.cols[COLS.DOMAIN_PRIMES],
-        dispatch
-    }
-    const mappingProps = {row: view.rows[ROWS.MAPPING], column: view.cols[COLS.DOMAIN_PRIMES], dispatch}
-    const commaBasisProps = {row: view.rows[ROWS.INTERVALS], column: view.cols[COLS.COMMAS], dispatch}
 
     return (
         <div>
             <Undo/>
             <div className="container">
                 {/*<Background {...{view}}/>*/}
-                <Domain {...domainProps}/>
-                <DomainRemovesAndExpands {...domainRemovesAndExpandsProps}/>
-                <Mapping {...mappingProps} />
-                <CommaBasis {...commaBasisProps} />
+
+                {/* REMOVES AND EXPANDS*/}
+                <DomainRemovesAndExpands {...{
+                    row: view.rows[ROWS.REMOVES_AND_EXPANDS],
+                    column: view.cols[COLS.DOMAIN_PRIMES],
+                    dispatch
+                }}/>
+                <EmptyBox {...{row: view.rows[ROWS.REMOVES_AND_EXPANDS], column: view.cols[COLS.COMMAS]}} />
+                
+                {/* HEADER */}
+                <Domain {...{row: view.rows[ROWS.HEADER], column: view.cols[COLS.DOMAIN_PRIMES]}}/>
+                <EmptyBox {...{row: view.rows[ROWS.HEADER], column: view.cols[COLS.COMMAS]}} />
+                
+                {/* INTERVALS*/}
+                <CommaBasis {...{row: view.rows[ROWS.INTERVALS], column: view.cols[COLS.COMMAS], dispatch}} />
+                <EmptyBox {...{row: view.rows[ROWS.INTERVALS], column: view.cols[COLS.DOMAIN_PRIMES]}} />
+
+                {/* MAPPING */}
+                <Mapping {...{row: view.rows[ROWS.MAPPING], column: view.cols[COLS.DOMAIN_PRIMES], dispatch}} />
+                <EmptyBox {...{row: view.rows[ROWS.MAPPING], column: view.cols[COLS.COMMAS]}} />
             </div>
         </div>
     )

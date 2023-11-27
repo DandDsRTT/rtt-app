@@ -5,11 +5,13 @@ const blankBuilder = (className: string) => (addressProps: AddressProps) => <Bla
 
 const Blank = blankBuilder("blank")
 
-const BlankType = ({gridRow, gridColumn, className}: BlankTypeProps): React.JSX.Element =>  (
+const BlankType = ({gridRow, gridColumn, gridLineHorizontal, gridLineVertical, className}: BlankTypeProps): React.JSX.Element =>  (
     <div
         className={className}
         style={{gridRow, gridColumn}}
     >
+        {gridLineHorizontal && <div className="grid-line-horizontal"></div>}
+        {gridLineVertical && <div className="grid-line-vertical"></div>}
     </div>
 )
 
