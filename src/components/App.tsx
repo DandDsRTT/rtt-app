@@ -6,12 +6,12 @@ import {Domain} from "./domain/Domain"
 import {DomainRemovesAndExpands} from "./domainShrinksAndExpands/DomainRemovesAndExpands"
 import {Mapping} from "./mapping/Mapping"
 import {CommaBasis} from "./commaBasis/CommaBasis"
-import {Background} from "./block/Background"
+import {Undo} from "./undo/Undo";
 
 const App = (): React.JSX.Element => {
     const view = useSelector((state: ObjectState) => state.view)
     const dispatch = useDispatch()
-    
+
     const domainProps = {row: view.rows[ROWS.HEADER], column: view.cols[COLS.DOMAIN_PRIMES]}
     const domainRemovesAndExpandsProps = {
         row: view.rows[ROWS.REMOVES_AND_EXPANDS],
@@ -22,12 +22,15 @@ const App = (): React.JSX.Element => {
     const commaBasisProps = {row: view.rows[ROWS.INTERVALS], column: view.cols[COLS.COMMAS], dispatch}
 
     return (
-        <div className="container">
-            {/*<Background {...{view}}/>*/}
-            <Domain {...domainProps}/>
-            <DomainRemovesAndExpands {...domainRemovesAndExpandsProps}/>
-            <Mapping {...mappingProps} />
-            <CommaBasis {...commaBasisProps} />
+        <div>
+            <Undo/>
+            <div className="container">
+                {/*<Background {...{view}}/>*/}
+                <Domain {...domainProps}/>
+                <DomainRemovesAndExpands {...domainRemovesAndExpandsProps}/>
+                <Mapping {...mappingProps} />
+                <CommaBasis {...commaBasisProps} />
+            </div>
         </div>
     )
 }

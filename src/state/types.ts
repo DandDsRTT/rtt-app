@@ -1,6 +1,10 @@
 import {Action} from "@reduxjs/toolkit";
 
-interface ObjectState {
+interface ObjectState extends ObjectStateWithoutSnapshots {
+    snapshots: ObjectStateWithoutSnapshots[]
+}
+
+interface ObjectStateWithoutSnapshots {
     dimensionality: number,
     rank: number,
     mapping: number[][],
@@ -57,6 +61,7 @@ interface ShrinkDomainAction extends Action {
 
 export {
     ObjectState,
+    ObjectStateWithoutSnapshots,
     View,
     Column,
     Row,

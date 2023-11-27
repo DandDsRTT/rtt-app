@@ -6,6 +6,7 @@ import {App} from "../src/components/App";
 import {beforeEach, describe, expect, jest, test} from "@jest/globals";
 import {default as axios} from 'axios'
 import {getCommaBasisValues, getDomainValues, getMappingValues, renderWithProviders} from "./helpers";
+import {changeCommaBasis, changeMapping} from "./actions";
 
 jest.mock("axios");
 
@@ -70,12 +71,6 @@ describe("integration test", () => {
     })
 
     describe("changing the mapping", () => {
-        const changeMapping = async () => {
-            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{-5}, {5}, {1}}]"}));
-            fireEvent.change(screen.getByTitle("mapping-cell-row-1-column-2"), {target: {value: '5'}})
-            await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
-        }
-
         test("it updates the comma basis", async () => {
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
             await changeMapping()
@@ -84,16 +79,32 @@ describe("integration test", () => {
     })
 
     describe("changing the comma basis", () => {
-        const changeCommaBasis = async () => {
-            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 0, -4}, {0, 1, 5}}]"}));
-            fireEvent.change(screen.getByTitle("comma-basis-cell-column-0-row-1"), {target: {value: '-5'}})
-            await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
-        }
-
         test("it updates the mapping", async () => {
             expect(getMappingValues()).toEqual([[1, 1, 0], [0, 1, 4]])
             await changeCommaBasis()
             expect(getMappingValues()).toEqual([[1, 0, -4], [0, 1, 5]])
         })
     })
+
+    describe('undoing', () => {
+        const undo = async () => {
+            fireEvent.click(screen.getByRole('button', {name: "undo"}))
+        }
+        
+        test("it can undo the latest action", async () => {
+            const originalMapping = [[1, 1, 0], [0, 1, 4]]
+            expect(getMappingValues()).toEqual(originalMapping)
+            await changeMapping()
+            expect(getMappingValues()).not.toEqual(originalMapping)
+            await undo()
+            expect(getMappingValues()).toEqual(originalMapping)
+            
+            const originalCommaBasis = [[-4, 4, -1]]
+            expect(getCommaBasisValues()).toEqual(originalCommaBasis)
+            await changeCommaBasis()
+            expect(getCommaBasisValues()).not.toEqual(originalCommaBasis)
+            await undo()
+            expect(getCommaBasisValues()).toEqual(originalCommaBasis)
+        })
+    });
 })

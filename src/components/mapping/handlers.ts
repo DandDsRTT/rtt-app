@@ -9,6 +9,7 @@ const handleMappingElementChange: Handler<HTMLInputElement> = (handlerParameters
     const [rowIndex, columnIndex] = address
     const newMapping = JSON.parse(JSON.stringify(matrix))
     newMapping[ rowIndex ][ columnIndex ] = parseInt(input.target.value)
+    dispatch({ type: "snapshot"})
     dispatch({ type: "changeMapping", mapping: newMapping })
     
     const loading = addLoading()

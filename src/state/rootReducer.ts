@@ -1,5 +1,5 @@
 import {initialState} from "./initialState"
-import {createReducer} from "@reduxjs/toolkit"
+import {createReducer, current} from "@reduxjs/toolkit"
 import {COLS, ROWS} from "../constants"
 import {
     ChangeCommaBasisAction,
@@ -43,7 +43,38 @@ const reducer = createReducer(initialState, (builder) => {
         .addCase("initializeGrid", (state) => {
             updateGrid(state.view)
         })
+        .addCase("snapshot", (state) => {
+            const {snapshots, ...toBeSnapshot} = state
+            state.snapshots.push(toBeSnapshot)
+        })
+        .addCase("undo", (state) => {
+            const mostRecentSnapshot = state.snapshots.pop()
+            mergeDeep(state, JSON.parse(JSON.stringify(current(mostRecentSnapshot))))
+            updateGrid(state.view)
+        })
 })
+
+const isObject = (item: unknown) => {
+    return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+const mergeDeep = (target: any, ...sources: any[]): any => {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (isObject(target) && isObject(source)) {
+        for (const key in source) {
+            if (isObject(source[key])) {
+                if (!target[key]) Object.assign(target, { [key]: {} });
+                mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        }
+    }
+
+    return mergeDeep(target, ...sources);
+}
 
 const updateCommaBasis = (state: ObjectState, newCommaBasis: number[][]) => {
     newCommaBasis.forEach((column, columnIndex) => {

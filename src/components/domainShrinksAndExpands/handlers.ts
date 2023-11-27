@@ -7,6 +7,8 @@ import {addLoading, removeLoading} from "../loading";
 const handlePlus: DomainHandler = (domainHandlerParameters) => {
     const {matrix, dispatch} = domainHandlerParameters
     const newCommaBasis = matrix.map((comma: number[]) => [...comma, 0])
+
+    dispatch({ type: "snapshot"})
     dispatch({ type: "expandDomain", commaBasis: newCommaBasis })
 
     const loading = addLoading()
@@ -31,6 +33,8 @@ const handleMinus: DomainHandler = (domainHandlerParameters) => {
     const {matrix, dispatch, dimensionality} = domainHandlerParameters
     if (!dimensionality) throw new Error("No dimensionality.")
     const newCommaBasis = matrix.map((comma: number[]) => comma.slice(0, dimensionality - 1))
+  
+    dispatch({ type: "snapshot"})
     dispatch({ type: "shrinkDomain", commaBasis: newCommaBasis })
     
     const loading = addLoading()
