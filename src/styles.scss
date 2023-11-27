@@ -1,3 +1,5 @@
+@import 'https://fonts.googleapis.com/css?family=Cambria:300,400,600,700';
+
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0,max-content));
@@ -6,6 +8,8 @@
   padding-left: 10px;
   padding-top: 10px;
   margin-bottom: 10px;
+  justify-items: center;
+  font-family: "Cambria", serif;
 }
 
 button {
@@ -35,29 +39,35 @@ button {
 }
 
 .square-input {
-  width: 30px;
+  width: 100%;
   height: 30px;
-  
   display: flex;
   align-items: stretch;
-  justify-content: stretch;
+  justify-content: center;
   
   background-color: #e0e0e0;
+  
+  input {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+  }
 }
 
 input {
-  outline: 1px solid #888888;
   width: 100%;
   text-align: center;
 }
 
 .corner-padding {
   background-color: #e0e0e0;
+  width: 100%;
 }
 
 .vertical-padding {
   min-height: 10px;
   background-color: #e0e0e0;
+  width: 100%;
 }
 
 .horizontal-padding {
@@ -66,7 +76,7 @@ input {
 }
 
 .corner-margin {
-  background-color: #c0c0c0; 
+  background-color: #c0c0c0;
 }
 
 .vertical-margin {
@@ -81,9 +91,18 @@ input {
 
 .blank {
   background-color: #e0e0e0;
+  width: 100%;
 }
 
 .undo {
   width: 50px;
   margin-bottom: 10px;
+}
+
+.box-name {
+  z-index: 10;
+  background-color: #e0e0e0;
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
 }

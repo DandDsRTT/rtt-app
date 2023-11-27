@@ -98,6 +98,10 @@ const initialState: ObjectState = {
                         gridRow: 0,
                     },
                     {
+                        type: "name",
+                        gridRow: 0,
+                    },
+                    {
                         type: "plus",
                         gridRow: 0,
                     },
@@ -115,6 +119,10 @@ const initialState: ObjectState = {
                     {
                         type: "gridded",
                         index: 1,
+                        gridRow: 0,
+                    },
+                    {
+                        type: "name",
                         gridRow: 0,
                     },
                     {

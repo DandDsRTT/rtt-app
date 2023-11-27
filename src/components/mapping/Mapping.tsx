@@ -19,10 +19,11 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}:
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
+    if (!mapping) throw new Error("No mapping.")
+
     if (subColumn.type === "gridded" && subRow.type === "gridded") {
         const generatorIndex = subRow.index
         const primeIndex = subColumn.index
-        if (!mapping) throw new Error("No mapping.")
         if (!dispatch) throw new Error("No dispatch.")
         if (
             generatorIndex === undefined ||
@@ -50,6 +51,15 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}:
                         address: [generatorIndex, primeIndex]
                     })}
                 />
+            </div>
+        )
+    } else if (subRow.type === "name" && subColumn.index === 0) {
+        return (
+            <div 
+                className="box-name" 
+                style={{gridRow, gridColumnStart: gridColumn, gridColumnEnd: gridColumn + mapping[0].length}}
+            >
+                mapping
             </div>
         )
     } else {
