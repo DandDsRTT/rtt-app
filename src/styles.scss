@@ -2,6 +2,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0,max-content));
   grid-auto-rows: auto;
+  background-color: #c0c0c0;
+  padding-left: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 
 button {
@@ -80,5 +84,6 @@ input {
 }
 
 .undo {
-  width: 100px;
+  width: 50px;
+  margin-bottom: 10px;
 }
