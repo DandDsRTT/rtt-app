@@ -4,12 +4,16 @@ import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
 import { Blank } from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
+import {useSelector} from "react-redux";
+import {ObjectState} from "../../state/types";
 
 const Domain = ({row, column}: BlockProps): React.JSX.Element => {
-    return PaddingAndMarginWrapper({row, column, Element: DomainElement })
+    const loading = useSelector((state: ObjectState) => state.loading)
+    
+    return PaddingAndMarginWrapper({row, column, Element: DomainElement, loading})
 }
 
-const DomainElement = ({subRow, subColumn}: ElementProps): React.JSX.Element => {
+const DomainElement = ({subRow, subColumn, loading}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -19,6 +23,7 @@ const DomainElement = ({subRow, subColumn}: ElementProps): React.JSX.Element => 
         return (
             <div className="square-input" style={{gridRow, gridColumn}}>
                 <input
+                    disabled={loading}
                     title={`domain-cell-${domainElementIndex}`}
                     defaultValue={PRIMES[ domainElementIndex ]}
                 />

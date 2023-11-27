@@ -9,11 +9,12 @@ import {BlockProps} from "../block/types";
 
 const CommaBasis = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.commaBasis)
-
-    return PaddingAndMarginWrapper({row, column, Element: CommaBasisElement, dispatch, matrix})
+    const loading = useSelector((state: ObjectState) => state.loading) 
+    
+    return PaddingAndMarginWrapper({row, column, Element: CommaBasisElement, dispatch, matrix, loading})
 }
 
-const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: ElementProps): React.JSX.Element => {
+const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis, loading}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -34,6 +35,7 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis}: El
             <div className="square-input" style={{gridRow, gridColumn}}>
                 <input
                     value={commaBasisCell}
+                    disabled={loading}
                     title={`comma-basis-cell-column-${commaBasisColumnIndex}-row-${commaBasisRowIndex}`}
                     onChange={
                     input => handleCommaBasisCellChange({

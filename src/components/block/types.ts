@@ -9,6 +9,7 @@ interface BlockProps {
     Element?: (elementProps: ElementProps) => React.JSX.Element,
     dispatch?: Dispatch,
     matrix?: number[][],
+    loading?: boolean,
     dimensionality?: number,
 }
 

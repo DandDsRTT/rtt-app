@@ -4,7 +4,7 @@ import React from "react"
 import {CornerMargin, HorizontalMargin, VerticalMargin} from "./Margin"
 import {BlockProps} from "./types";
 
-const PaddingAndMarginWrapper = ({row, column, Element, dispatch, matrix, ...other}: BlockProps): React.JSX.Element => {
+const PaddingAndMarginWrapper = ({row, column, Element, dispatch, matrix, loading, ...other}: BlockProps): React.JSX.Element => {
     let elements: React.JSX.Element[] = []
     row.subRows.forEach((subRow, rowKey) => {
         if (subRow.type === "padding") {
@@ -45,7 +45,7 @@ const PaddingAndMarginWrapper = ({row, column, Element, dispatch, matrix, ...oth
                     elements.push(<HorizontalMargin {...{gridRow, gridColumn}} key={key}/>)
                 } else {
                     if (!Element) throw new Error("No Element.")
-                    elements.push(<Element {...{subRow, subColumn, dispatch, matrix, ...other}} key={key}/>)
+                    elements.push(<Element {...{subRow, subColumn, dispatch, matrix, loading, ...other}} key={key}/>)
                 }
             })
         }

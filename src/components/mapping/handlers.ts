@@ -15,7 +15,8 @@ const handleMappingElementChange: Handler<HTMLInputElement> = (handlerParameters
     if (isNaN(newValue)) return
 
     const loading = addLoading()
-    
+    dispatch({type: "loading"})
+
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertMappingToEbk(newMapping)),
         {},
@@ -28,6 +29,7 @@ const handleMappingElementChange: Handler<HTMLInputElement> = (handlerParameters
         unparsedCommaBasis = transposeArray(unparsedCommaBasis)
         dispatch({ type: "changeCommaBasis", commaBasis: unparsedCommaBasis })
         removeLoading(loading)
+        dispatch({type: "finishedLoading"})
     }).catch(e => {
         console.error("axios error: ", e)
     })

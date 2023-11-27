@@ -13,6 +13,10 @@ button {
   border: none;
   outline: 1px solid #888888;
   background-color: white;
+  
+  :disabled {
+    background-color: blue;
+  }
 }
 
 .square-box {

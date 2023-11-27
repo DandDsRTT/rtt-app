@@ -11,10 +11,11 @@ const handleCommaBasisCellChange: Handler<HTMLInputElement> = (handlerParameters
 
     const newValue = parseInt(input.target.value);
     newCommaBasis[columnIndex][rowIndex] = isNaN(newValue) ? input.target.value : newValue
-    dispatch({ type: "snapshot"})
+    dispatch({type: "snapshot"})
     dispatch({type: "changeCommaBasis", commaBasis: newCommaBasis})
     if (isNaN(newValue)) return
     const loading = addLoading()
+    dispatch({type: "loading"})
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -27,6 +28,7 @@ const handleCommaBasisCellChange: Handler<HTMLInputElement> = (handlerParameters
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({type: "changeMapping", mapping: unparsedMapping})
         removeLoading(loading)
+        dispatch({type: "finishedLoading"})
     }).catch(e => {
         console.error("axios error: ", e)
     })

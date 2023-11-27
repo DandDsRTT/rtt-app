@@ -10,6 +10,7 @@ import {ObjectState} from "../../state/types";
 const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const commaBasis = useSelector((state: ObjectState) => state.commaBasis)
     const dimensionality = useSelector((state: ObjectState) => state.dimensionality)
+    const loading = useSelector((state: ObjectState) => state.loading)
 
     return PaddingAndMarginWrapper({
         row,
@@ -17,11 +18,12 @@ const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX
         Element: DomainRemoveOrExpandElement,
         dispatch,
         matrix: commaBasis,
-        dimensionality
+        dimensionality,
+        loading,
     })
 }
 
-const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: commaBasis, dimensionality}: ElementProps): React.JSX.Element => {
+const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: commaBasis, dimensionality, loading}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -35,7 +37,10 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: comma
         if (subColumn.type === "gridded" && subColumn.index === dimensionality - 1) {
             return (
                 <div className="square-box" style={{gridRow, gridColumn}}>
-                    <button onClick={() => handleMinus({dispatch, matrix: commaBasis, dimensionality})}>
+                    <button
+                        disabled={loading}
+                        onClick={() => handleMinus({dispatch, matrix: commaBasis, dimensionality})}
+                    >
                         -
                     </button>
                 </div>
@@ -43,7 +48,10 @@ const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: comma
         } else if (subColumn.type === "plus") {
             return (
                 <div className="square-box" style={{gridRow, gridColumn}}>
-                    <button onClick={() => handlePlus({dispatch, matrix: commaBasis})}>
+                    <button
+                        disabled={loading}
+                        onClick={() => handlePlus({dispatch, matrix: commaBasis})}
+                    >
                         +
                     </button>
                 </div>

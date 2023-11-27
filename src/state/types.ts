@@ -10,6 +10,7 @@ interface ObjectStateWithoutSnapshots {
     mapping: number[][],
     commaBasis: number[][],
     view: View,
+    loading: boolean,
 }
 
 interface View {

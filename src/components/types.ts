@@ -8,6 +8,7 @@ interface ElementProps {
     dispatch?: Dispatch,
     matrix?: number[][],
     dimensionality?: number,
+    loading?: boolean,
 }
 
 type Handler<ElementType> = (handlerParameters: HandlerParameters<ElementType>) => void

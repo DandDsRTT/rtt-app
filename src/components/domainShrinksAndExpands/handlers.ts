@@ -12,7 +12,8 @@ const handlePlus: DomainHandler = (domainHandlerParameters) => {
     dispatch({ type: "expandDomain", commaBasis: newCommaBasis })
 
     const loading = addLoading()
-    
+    dispatch({type: "loading"})
+
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
         {},
@@ -24,6 +25,7 @@ const handlePlus: DomainHandler = (domainHandlerParameters) => {
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({ type: "changeMapping", mapping: unparsedMapping })
         removeLoading(loading)
+        dispatch({type: "finishedLoading"})
     }).catch(e => {
         console.error("axios error: ", e)
     })
@@ -38,6 +40,7 @@ const handleMinus: DomainHandler = (domainHandlerParameters) => {
     dispatch({ type: "shrinkDomain", commaBasis: newCommaBasis })
     
     const loading = addLoading()
+    dispatch({type: "loading"})
 
     axios.get(
         HOST + encodeURI("dual?unparsedT=" + convertCommaBasisToEbk(newCommaBasis)),
@@ -50,6 +53,7 @@ const handleMinus: DomainHandler = (domainHandlerParameters) => {
         unparsedMapping = JSON.parse(unparsedMapping)
         dispatch({ type: "changeMapping", mapping: unparsedMapping })
         removeLoading(loading)
+        dispatch({type: "finishedLoading"})
     }).catch(e => {
         console.error("axios error: ", e)
     })

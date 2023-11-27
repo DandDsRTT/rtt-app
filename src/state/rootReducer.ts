@@ -1,6 +1,5 @@
 import {initialState} from "./initialState"
 import {createReducer, current} from "@reduxjs/toolkit"
-import {COLS, ROWS} from "../constants"
 import {
     ChangeCommaBasisAction,
     ChangeMappingAction,
@@ -10,6 +9,8 @@ import {
 import {mergeDeep} from "./helpers";
 import {updateGrid} from "./view";
 import {updateCommaBasis, updateDomain, updateMapping, updateRank} from "./components";
+
+// TODO: break up reducer by view, settings, user data, etc; use constants for actions
 
 const reducer = createReducer(initialState, (builder) => {
     builder
@@ -52,6 +53,12 @@ const reducer = createReducer(initialState, (builder) => {
             const mostRecentSnapshot = state.snapshots.pop()
             mergeDeep(state, JSON.parse(JSON.stringify(current(mostRecentSnapshot))))
             updateGrid(state.view)
+        })
+        .addCase("loading", (state) => {
+            state.loading = true
+        })
+        .addCase("finishedLoading", (state) => {
+            state.loading = false
         })
 })
 

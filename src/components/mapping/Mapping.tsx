@@ -9,11 +9,12 @@ import {BlockProps} from "../block/types";
 
 const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.mapping)
-
-    return PaddingAndMarginWrapper({row, column, Element: MappingElement, dispatch, matrix})
+    const loading = useSelector((state: ObjectState) => state.loading)
+    
+    return PaddingAndMarginWrapper({row, column, Element: MappingElement, dispatch, matrix, loading})
 }
 
-const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping}: ElementProps): React.JSX.Element => {
+const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
@@ -38,6 +39,7 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping}: ElementP
             >
                 <input
                     value={mappingElement}
+                    disabled={loading}
                     title={`mapping-cell-row-${generatorIndex}-column-${primeIndex}`}
                     onChange={input => handleMappingElementChange({
                         dispatch,
