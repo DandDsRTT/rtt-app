@@ -5,7 +5,6 @@ import {HandlerParameters, Handler} from "../types";
 import {addLoading, removeLoading} from "../loading";
 
 // TODO: fix the ability to temporarily break cell with negative sign in it
-// TODO: disable all cells while loading
 
 const handleCommaBasisCellChange: Handler<HTMLInputElement> = (handlerParameters: HandlerParameters<any>) => {
     const {address, matrix, element, dispatch} = handlerParameters
