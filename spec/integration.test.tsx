@@ -25,19 +25,19 @@ describe("integration test", () => {
             await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
         }
 
-        test("it expands the domain", async() => {
+        test("it expands the domain", async () => {
             expect(getDomainValues()).toEqual([2, 3, 5])
             await expandDomain()
             expect(getDomainValues()).toEqual([2, 3, 5, 7])
         })
 
-        test("it expands the mapping", async() => {
+        test("it expands the mapping", async () => {
             expect(getMappingValues()).toEqual([[1, 1, 0], [0, 1, 4]])
             await expandDomain()
             expect(getMappingValues()).toEqual([[1, 1, 0, 0], [0, 1, 4, 0], [0, 0, 0, 1]])
         })
 
-        test("it expands the comma basis", async() => {
+        test("it expands the comma basis", async () => {
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
             await expandDomain()
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1, 0]])
@@ -90,7 +90,7 @@ describe("integration test", () => {
         const undo = async () => {
             fireEvent.click(screen.getByRole('button', {name: "undo"}))
         }
-        
+
         test("it can undo the latest action", async () => {
             const originalMapping = [[1, 1, 0], [0, 1, 4]]
             expect(getMappingValues()).toEqual(originalMapping)
@@ -98,7 +98,7 @@ describe("integration test", () => {
             expect(getMappingValues()).not.toEqual(originalMapping)
             await undo()
             expect(getMappingValues()).toEqual(originalMapping)
-            
+
             const originalCommaBasis = [[-4, 4, -1]]
             expect(getCommaBasisValues()).toEqual(originalCommaBasis)
             await changeCommaBasis()
@@ -107,4 +107,13 @@ describe("integration test", () => {
             expect(getCommaBasisValues()).toEqual(originalCommaBasis)
         })
     });
+
+    test("the app doesn't crash when a cell value is temporarily invalid while you're working on it", async () => {
+        expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
+        fireEvent.change(screen.getByTitle("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
+        expect(getCommaBasisValues()).toEqual([["-", 4, -1]])
+        fireEvent.change(screen.getByTitle("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}})
+        await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
+        expect(getCommaBasisValues()).toEqual([[-3, 4, -1]])
+    })
 })

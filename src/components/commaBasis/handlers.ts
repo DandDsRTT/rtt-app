@@ -4,17 +4,16 @@ import {convertCommaBasisToEbk} from "../../utilities"
 import {HandlerParameters, Handler} from "../types";
 import {addLoading, removeLoading} from "../loading";
 
-// TODO: fix the ability to temporarily break cell with negative sign in it
-
 const handleCommaBasisCellChange: Handler<HTMLInputElement> = (handlerParameters: HandlerParameters<any>) => {
-    const {address, matrix, element, dispatch} = handlerParameters
+    const {address, matrix, element: input, dispatch} = handlerParameters
     const [columnIndex, rowIndex] = address
     const newCommaBasis = JSON.parse(JSON.stringify(matrix))
-   
-    newCommaBasis[columnIndex][rowIndex] = parseInt(element.target.value)
-    dispatch({ type: "snapshot"}) // TODO: batch ?
-    dispatch({type: "changeCommaBasis", commaBasis: newCommaBasis})
 
+    const newValue = parseInt(input.target.value);
+    newCommaBasis[columnIndex][rowIndex] = isNaN(newValue) ? input.target.value : newValue
+    dispatch({ type: "snapshot"})
+    dispatch({type: "changeCommaBasis", commaBasis: newCommaBasis})
+    if (isNaN(newValue)) return
     const loading = addLoading()
 
     axios.get(

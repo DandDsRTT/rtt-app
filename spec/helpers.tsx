@@ -11,10 +11,10 @@ const renderWithProviders = (ui: React.ReactElement, {store}: { store: Store }) 
 const getDomainValues = (): number[] => (screen.getAllByTitle(/domain-cell-\d+/) as HTMLInputElement[])
     .map((domainCell: HTMLInputElement) => parseInt(domainCell.value))
 
-const getMappingValues = (): number[][] => {
+const getMappingValues = (): (string | number)[][] => {
     const mappingCells: HTMLInputElement[] = screen.getAllByTitle(/mapping-cell-row-\d+-column-\d+/)
     const mappingValues = []
-    let currentMappingRowValues: number[] = []
+    let currentMappingRowValues: (string | number)[] = []
     let currentMappingRowIndex = 0
     for (const mappingCell of mappingCells) {
         const [mappingRowIndex, mappingColumnIndex] = mappingCell.title.match(/(\d+)/g)!.map(parseInt)
@@ -23,17 +23,18 @@ const getMappingValues = (): number[][] => {
             currentMappingRowValues = []
             currentMappingRowIndex++
         }
-        currentMappingRowValues.push(parseInt(mappingCell.value))
+        const cellValue = parseInt(mappingCell.value);
+        currentMappingRowValues.push(isNaN(cellValue) ? mappingCell.value : cellValue)
     }
     mappingValues.push(currentMappingRowValues)
 
     return mappingValues
 }
 
-const getCommaBasisValues = (): number[][] => {
+const getCommaBasisValues = (): (string | number)[][] => {
     const commaBasisCells: HTMLInputElement[] = screen.getAllByTitle(/comma-basis-cell-column-\d+-row-\d+/)
     const commaBasisValues = []
-    let currentCommaBasisCol: number[] = []
+    let currentCommaBasisCol: (string | number)[] = []
     let currentCommaBasisColIndex = 0
     for (const commaBasisCell of commaBasisCells) {
         const [commaBasisColIndex, mappingColumnIndex] = commaBasisCell.title.match(/(\d+)/g)!.map(parseInt)
@@ -42,7 +43,8 @@ const getCommaBasisValues = (): number[][] => {
             currentCommaBasisCol = []
             currentCommaBasisColIndex++
         }
-        currentCommaBasisCol.push(parseInt(commaBasisCell.value))
+        const cellValue = parseInt(commaBasisCell.value);
+        currentCommaBasisCol.push(isNaN(cellValue) ? commaBasisCell.value : cellValue)
     }
     commaBasisValues.push(currentCommaBasisCol)
 

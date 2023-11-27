@@ -8,10 +8,12 @@ const handleMappingElementChange: Handler<HTMLInputElement> = (handlerParameters
     const {address, matrix, dispatch, element: input} = handlerParameters
     const [rowIndex, columnIndex] = address
     const newMapping = JSON.parse(JSON.stringify(matrix))
-    newMapping[ rowIndex ][ columnIndex ] = parseInt(input.target.value)
+    const newValue = parseInt(input.target.value);
+    newMapping[ rowIndex ][ columnIndex ] = isNaN(newValue) ? input.target.value : newValue
     dispatch({ type: "snapshot"})
     dispatch({ type: "changeMapping", mapping: newMapping })
-    
+    if (isNaN(newValue)) return
+
     const loading = addLoading()
     
     axios.get(
