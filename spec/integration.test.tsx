@@ -110,9 +110,9 @@ describe("integration test", () => {
 
     test("the app doesn't crash when a cell value is temporarily invalid while you're working on it", async () => {
         expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
-        fireEvent.change(screen.getByTitle("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
+        fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
         expect(getCommaBasisValues()).toEqual([["-", 4, -1]])
-        fireEvent.change(screen.getByTitle("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}})
+        fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}})
         await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
         expect(getCommaBasisValues()).toEqual([[-3, 4, -1]])
     })

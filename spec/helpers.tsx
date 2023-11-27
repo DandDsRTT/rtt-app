@@ -6,18 +6,18 @@ import {Provider} from "react-redux";
 const renderWithProviders = (ui: React.ReactElement, {store}: { store: Store }) => ({
     store,
     ...render(ui, {wrapper: ({children}: PropsWithChildren<{}>) => <Provider store={store}>{children}</Provider>})
-    })
+})
 
-const getDomainValues = (): number[] => (screen.getAllByTitle(/domain-cell-\d+/) as HTMLInputElement[])
+const getDomainValues = (): number[] => (screen.getAllByTestId(/domain-cell-\d+/) as HTMLInputElement[])
     .map((domainCell: HTMLInputElement) => parseInt(domainCell.value))
 
 const getMappingValues = (): (string | number)[][] => {
-    const mappingCells: HTMLInputElement[] = screen.getAllByTitle(/mapping-cell-row-\d+-column-\d+/)
+    const mappingCells: HTMLInputElement[] = screen.getAllByTestId(/mapping-cell-row-\d+-column-\d+/)
     const mappingValues = []
     let currentMappingRowValues: (string | number)[] = []
     let currentMappingRowIndex = 0
     for (const mappingCell of mappingCells) {
-        const [mappingRowIndex, mappingColumnIndex] = mappingCell.title.match(/(\d+)/g)!.map(parseInt)
+        const [mappingRowIndex, mappingColumnIndex] = mappingCell.getAttribute("data-testid")!.match(/(\d+)/g)!.map(parseInt)
         if (mappingRowIndex > currentMappingRowIndex) {
             mappingValues.push(currentMappingRowValues)
             currentMappingRowValues = []
@@ -32,12 +32,12 @@ const getMappingValues = (): (string | number)[][] => {
 }
 
 const getCommaBasisValues = (): (string | number)[][] => {
-    const commaBasisCells: HTMLInputElement[] = screen.getAllByTitle(/comma-basis-cell-column-\d+-row-\d+/)
+    const commaBasisCells: HTMLInputElement[] = screen.getAllByTestId(/comma-basis-cell-column-\d+-row-\d+/)
     const commaBasisValues = []
     let currentCommaBasisCol: (string | number)[] = []
     let currentCommaBasisColIndex = 0
     for (const commaBasisCell of commaBasisCells) {
-        const [commaBasisColIndex, mappingColumnIndex] = commaBasisCell.title.match(/(\d+)/g)!.map(parseInt)
+        const [commaBasisColIndex, mappingColumnIndex] = commaBasisCell.getAttribute("data-testid")!.match(/(\d+)/g)!.map(parseInt)
         if (commaBasisColIndex > currentCommaBasisColIndex) {
             commaBasisValues.push(currentCommaBasisCol)
             currentCommaBasisCol = []

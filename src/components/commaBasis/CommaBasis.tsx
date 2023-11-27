@@ -6,6 +6,7 @@ import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
 import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
+import {SUBSCRIPTS} from "../../constants";
 
 const CommaBasis = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.commaBasis)
@@ -36,7 +37,8 @@ const CommaBasisElement = ({subRow, subColumn, dispatch, matrix: commaBasis, loa
                 <input
                     value={commaBasisCell}
                     disabled={loading}
-                    title={`comma-basis-cell-column-${commaBasisColumnIndex}-row-${commaBasisRowIndex}`}
+                    data-testid={`comma-basis-cell-column-${commaBasisColumnIndex}-row-${commaBasisRowIndex}`}
+                    title={`𝑐${SUBSCRIPTS[commaBasisColumnIndex]}${SUBSCRIPTS[commaBasisRowIndex]}`}
                     onChange={
                     input => handleCommaBasisCellChange({
                         dispatch,

@@ -24,7 +24,7 @@ const DomainElement = ({subRow, subColumn, loading}: ElementProps): React.JSX.El
             <div className="square-input" style={{gridRow, gridColumn}}>
                 <input
                     disabled={loading}
-                    title={`domain-cell-${domainElementIndex}`}
+                    data-testid={`domain-cell-${domainElementIndex}`}
                     defaultValue={PRIMES[ domainElementIndex ]}
                 />
             </div>

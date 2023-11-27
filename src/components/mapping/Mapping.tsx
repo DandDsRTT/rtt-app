@@ -6,6 +6,7 @@ import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
 import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
+import {SUBSCRIPTS} from "../../constants";
 
 const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: ObjectState) => state.mapping)
@@ -40,7 +41,8 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}:
                 <input
                     value={mappingElement}
                     disabled={loading}
-                    title={`mapping-cell-row-${generatorIndex}-column-${primeIndex}`}
+                    data-testid={`mapping-cell-row-${generatorIndex}-column-${primeIndex}`}
+                    title={`𝑚${SUBSCRIPTS[generatorIndex]}${SUBSCRIPTS[primeIndex]}`}
                     onChange={input => handleMappingElementChange({
                         dispatch,
                         matrix: mapping,

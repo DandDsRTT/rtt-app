@@ -26,9 +26,23 @@ const ROWS = {
     "MAPPING": 7,
 }
 
+const SUBSCRIPTS = [
+    "₀",
+    "₁",
+    "₂",
+    "₃",
+    "₄",
+    "₅",
+    "₆",
+    "₇",
+    "₈",
+    "₉",
+]
+
 export {
     HOST,
     PRIMES,
     COLS,
     ROWS,
+    SUBSCRIPTS,
 }
