@@ -39,6 +39,12 @@ const updateDomain = (view: View, dimensionality: number) => {
     view.rows[ROWS.INTERVALS].subRows.push({type: "plus", gridRow: 0})
 }
 
+// TODO: refactor state so there's just the minimal representation of tuning and temperament state, 
+//  and the view state is completely separate and generated as a result of that, 
+//  and then the components read the view state and make it into the interactive app
+//  and perhaps the animating in of new components could be handled along with previewing new items that will appear 
+//  if you click a button or change a field / highlighting things that are going to change
+
 const updateRank = (view: View, rank: number) => {
     view.cols[COLS.GENERATORS].subColumns.length = 0
     for (let i = 0; i < rank; i++) {
