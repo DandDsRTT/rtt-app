@@ -1,12 +1,13 @@
 import {configureStore, Store} from "@reduxjs/toolkit";
-import {reducer} from "../src/state/rootReducer";
 import React from "react";
 import {fireEvent, screen, waitFor} from "@testing-library/react";
 import {App} from "../src/components/App";
-import {beforeEach, describe, expect, jest, test} from "@jest/globals";
+import {beforeEach, describe, expect, fdescribe, jest, test} from "@jest/globals";
 import {default as axios} from 'axios'
 import {getCommaBasisValues, getDomainValues, getMappingValues, renderWithProviders} from "./helpers";
 import {changeCommaBasis, changeMapping} from "./actions";
+import {viewReducer} from "../src/state/view/reducer";
+import {objectsReducer} from "../src/state/objects/reducer";
 
 jest.mock("axios");
 
@@ -14,7 +15,12 @@ describe("integration test", () => {
     let store: Store
 
     beforeEach(() => {
-        store = configureStore({reducer})
+        store = configureStore({
+            reducer: {
+                objects: objectsReducer,
+                view: viewReducer,
+            }
+        })
         renderWithProviders(<App/>, {store})
     })
 
@@ -91,14 +97,16 @@ describe("integration test", () => {
             fireEvent.click(screen.getByRole('button', {name: "undo"}))
         }
 
-        test("it can undo the latest action", async () => {
+        test("it can undo the latest action - example 1: mapping", async () => {
             const originalMapping = [[1, 1, 0], [0, 1, 4]]
             expect(getMappingValues()).toEqual(originalMapping)
             await changeMapping()
             expect(getMappingValues()).not.toEqual(originalMapping)
             await undo()
             expect(getMappingValues()).toEqual(originalMapping)
+        })
 
+        test("it can undo the latest action - example 2: comma basis", async () => {
             const originalCommaBasis = [[-4, 4, -1]]
             expect(getCommaBasisValues()).toEqual(originalCommaBasis)
             await changeCommaBasis()
@@ -108,12 +116,16 @@ describe("integration test", () => {
         })
     });
 
-    test("the app doesn't crash when a cell value is temporarily invalid while you're working on it", async () => {
-        expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
-        fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
-        expect(getCommaBasisValues()).toEqual([["-", 4, -1]])
-        fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}})
-        await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
-        expect(getCommaBasisValues()).toEqual([[-3, 4, -1]])
+    describe("inputting", () => {
+        test("the app doesn't crash when a cell value is temporarily invalid while you're working on it", async () => {
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 1, 0, 0}, {0, 1, 4, 0}, {0, 0, 0, 1}}]"}));
+
+            expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
+            fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
+            expect(getCommaBasisValues()).toEqual([["-", 4, -1]])
+            fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}});
+            await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
+            expect(getCommaBasisValues()).toEqual([[-3, 4, -1]])
+        })
     })
 })

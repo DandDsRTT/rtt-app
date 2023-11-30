@@ -1,6 +1,5 @@
 import React from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {ObjectState} from "../state/types"
 import {COLS, ROWS} from "../constants"
 import {Domain} from "./domain/Domain"
 import {DomainRemovesAndExpands} from "./domainShrinksAndExpands/DomainRemovesAndExpands"
@@ -8,9 +7,10 @@ import {Mapping} from "./mapping/Mapping"
 import {CommaBasis} from "./commaBasis/CommaBasis"
 import {Undo} from "./undo/Undo";
 import {EmptyBox} from "./empty/EmptyBox";
+import {State} from "../state/types";
 
 const App = (): React.JSX.Element => {
-    const view = useSelector((state: ObjectState) => state.view)
+    const view = useSelector((state: State) => state.view.view)
     const dispatch = useDispatch()
 
     return (

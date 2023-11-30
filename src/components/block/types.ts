@@ -1,4 +1,4 @@
-import {Column, Row} from "../../state/types";
+import {Column, Row} from "../../state/view/types";
 import {ElementProps} from "../types";
 import React from "react";
 import {Dispatch} from "@reduxjs/toolkit";
@@ -11,6 +11,7 @@ interface BlockProps {
     matrix?: number[][],
     loading?: boolean,
     dimensionality?: number,
+    rank?: number,
 }
 
 interface BlankTypeProps extends AddressProps {

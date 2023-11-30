@@ -1,11 +1,11 @@
 import {handleUndo} from "./handlers";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {ObjectState} from "../../state/types";
+import {State} from "../../state/types";
 
 const Undo = () => {
-    const snapshots = useSelector((state: ObjectState) => state.snapshots)
-    const loading = useSelector((state: ObjectState) => state.loading)
+    const snapshots = useSelector((state: State) => state.objects.snapshots)
+    const loading = useSelector((state: State) => state.view.loading)
     const dispatch = useDispatch()
 
     return (

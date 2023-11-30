@@ -1,25 +1,38 @@
 import React from "react"
 import {handleMappingElementChange} from "./handlers"
 import {useSelector} from "react-redux"
-import {ObjectState} from "../../state/types"
 import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
 import {Blank} from "../block/Blank"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
 import {SUBSCRIPTS} from "../../constants";
+import {State} from "../../state/types";
 
 const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
-    const matrix = useSelector((state: ObjectState) => state.mapping)
-    const loading = useSelector((state: ObjectState) => state.loading)
-    
-    return PaddingAndMarginWrapper({row, column, Element: MappingElement, dispatch, matrix, loading})
+    const matrix = useSelector((state: State) => state.objects.mapping)
+    const dimensionality = useSelector((state: State) => state.objects.dimensionality)
+    const rank = useSelector((state: State) => state.objects.rank)
+    const loading = useSelector((state: State) => state.view.loading)
+
+    return PaddingAndMarginWrapper({
+        row,
+        column,
+        Element: MappingElement,
+        dispatch,
+        matrix,
+        loading,
+        dimensionality,
+        rank
+    })
 }
 
-const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}: ElementProps): React.JSX.Element => {
+const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, dimensionality, rank}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
     if (!mapping) throw new Error("No mapping.")
+    if (!dimensionality) throw new Error("No dimensionality.")
+    if (!rank) throw new Error("No rank.")
 
     if (subColumn.type === "gridded" && subRow.type === "gridded") {
         const generatorIndex = subRow.index
@@ -48,15 +61,17 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading}:
                         dispatch,
                         matrix: mapping,
                         element: input,
-                        address: [generatorIndex, primeIndex]
+                        address: [generatorIndex, primeIndex],
+                        dimensionality,
+                        rank
                     })}
                 />
             </div>
         )
     } else if (subRow.type === "name" && subColumn.index === 0) {
         return (
-            <div 
-                className="box-name" 
+            <div
+                className="box-name"
                 style={{gridRow, gridColumnStart: gridColumn, gridColumnEnd: gridColumn + mapping[0].length}}
             >
                 mapping

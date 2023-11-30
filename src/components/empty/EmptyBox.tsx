@@ -1,7 +1,7 @@
 import React from "react"
 import {ElementProps} from "../types";
 import {BlockProps} from "../block/types";
-import {SubColumn} from "../../state/types";
+import {SubColumn} from "../../state/view/types";
 import {CornerMargin, HorizontalMargin, VerticalMargin} from "../block/Margin";
 
 const EmptyBox = ({row, column}: BlockProps): React.JSX.Element => {

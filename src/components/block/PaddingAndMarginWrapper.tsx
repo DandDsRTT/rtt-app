@@ -1,4 +1,4 @@
-import {SubColumn} from "../../state/types"
+import {SubColumn} from "../../state/view/types"
 import {CornerPadding, HorizontalPadding, VerticalPadding} from "./Padding"
 import React from "react"
 import {CornerMargin, HorizontalMargin, VerticalMargin} from "./Margin"

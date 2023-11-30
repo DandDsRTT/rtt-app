@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "../../state/types"
+import { View } from "../../state/view/types"
 
 const Background = ({view}: {view: View}): React.JSX.Element => {
     const backgroundElements: React.JSX.Element[] = []
