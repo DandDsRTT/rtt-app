@@ -35,14 +35,12 @@ const CommaBasisElement = (elementProps: ElementProps): React.JSX.Element => {
         matrix: commaBasis,
         loading,
         dimensionality,
-        rank
     } = elementProps
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
     if (!commaBasis) throw new Error("No comma basis.")
     if (!dimensionality) throw new Error("No dimensionality.")
-    if (!rank) throw new Error("No rank.")
 
     if (subRow.type === "gridded" && subColumn.type === "gridded") {
         const commaBasisRowIndex = subRow.index
@@ -70,7 +68,6 @@ const CommaBasisElement = (elementProps: ElementProps): React.JSX.Element => {
                             element: input,
                             address: [commaBasisColumnIndex, commaBasisRowIndex],
                             dimensionality,
-                            rank,
                         })}
                 />
             </div>

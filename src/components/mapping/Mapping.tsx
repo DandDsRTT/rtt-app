@@ -11,7 +11,6 @@ import {State} from "../../state/types";
 const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: State) => state.objects.mapping)
     const dimensionality = useSelector((state: State) => state.objects.dimensionality)
-    const rank = useSelector((state: State) => state.objects.rank)
     const loading = useSelector((state: State) => state.view.loading)
 
     return PaddingAndMarginWrapper({
@@ -22,17 +21,15 @@ const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
         matrix,
         loading,
         dimensionality,
-        rank
     })
 }
 
-const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, dimensionality, rank}: ElementProps): React.JSX.Element => {
+const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, dimensionality}: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
     const gridColumn = subColumn.gridColumn
 
     if (!mapping) throw new Error("No mapping.")
     if (!dimensionality) throw new Error("No dimensionality.")
-    if (!rank) throw new Error("No rank.")
 
     if (subColumn.type === "gridded" && subRow.type === "gridded") {
         const generatorIndex = subRow.index
@@ -63,7 +60,6 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, 
                         element: input,
                         address: [generatorIndex, primeIndex],
                         dimensionality,
-                        rank
                     })}
                 />
             </div>

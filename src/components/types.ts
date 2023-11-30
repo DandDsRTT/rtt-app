@@ -8,7 +8,6 @@ interface ElementProps {
     dispatch?: Dispatch,
     matrix?: number[][],
     dimensionality?: number,
-    rank?: number,
     loading?: boolean,
 }
 
@@ -19,7 +18,6 @@ interface HandlerParameters<ElementType> {
     matrix: number[][],
     element: React.ChangeEvent<ElementType>,
     address: number[],
-    rank: number,
     dimensionality: number,
 }
 
