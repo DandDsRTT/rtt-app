@@ -1,7 +1,7 @@
 import {Action} from "@reduxjs/toolkit";
 
 interface ViewState {
-    view: View,
+    view: View, // TODO: break down into view.columns and view.rows
     loading: boolean,
 }
 
