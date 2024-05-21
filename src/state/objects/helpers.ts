@@ -1,8 +1,8 @@
-import {ObjectsState} from "./types";
+import { ObjectsState } from "./types";
 
 const updateCommaBasis = (objectsState: ObjectsState, newCommaBasis: number[][]) => {
-    newCommaBasis.forEach((column, columnIndex) => {
-        column.forEach((cell, rowIndex) => {
+    newCommaBasis.forEach((col, columnIndex) => {
+        col.forEach((cell, rowIndex) => {
             objectsState.commaBasis[columnIndex] ||= []
             objectsState.commaBasis[columnIndex][rowIndex] = cell
         })

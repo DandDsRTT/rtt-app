@@ -1,10 +1,10 @@
 import React from "react";
-import {SubColumn, SubRow} from "../state/view/types";
-import {Dispatch} from "@reduxjs/toolkit";
+import { SubCol, SubRow } from "../state/view/types";
+import { Dispatch } from "@reduxjs/toolkit";
 
 interface ElementProps {
     subRow: SubRow,
-    subColumn: SubColumn,
+    subCol: SubCol,
     dispatch?: Dispatch,
     matrix?: number[][],
     dimensionality?: number,

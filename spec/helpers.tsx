@@ -1,18 +1,18 @@
-import {render, screen} from "@testing-library/react";
-import React, {PropsWithChildren} from "react";
-import {Store} from "@reduxjs/toolkit";
-import {Provider} from "react-redux";
+import { render, screen } from "@testing-library/react";
+import React, { PropsWithChildren } from "react";
+import { Store } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
 
-const renderWithProviders = (ui: React.ReactElement, {store}: { store: Store }) => ({
+const renderWithProviders = (ui: React.ReactElement, { store }: { store: Store }) => ({
     store,
-    ...render(ui, {wrapper: ({children}: PropsWithChildren<{}>) => <Provider store={store}>{children}</Provider>})
+    ...render(ui, { wrapper: ({ children }: PropsWithChildren<{}>) => <Provider store={store}>{children}</Provider> })
 })
 
 const getDomainValues = (): number[] => (screen.getAllByTestId(/domain-cell-\d+/) as HTMLInputElement[])
     .map((domainCell: HTMLInputElement) => parseInt(domainCell.value))
 
 const getMappingValues = (): (string | number)[][] => {
-    const mappingCells: HTMLInputElement[] = screen.getAllByTestId(/mapping-cell-row-\d+-column-\d+/)
+    const mappingCells: HTMLInputElement[] = screen.getAllByTestId(/mapping-cell-row-\d+-col-\d+/)
     const mappingValues = []
     let currentMappingRowValues: (string | number)[] = []
     let currentMappingRowIndex = 0
@@ -32,7 +32,7 @@ const getMappingValues = (): (string | number)[][] => {
 }
 
 const getCommaBasisValues = (): (string | number)[][] => {
-    const commaBasisCells: HTMLInputElement[] = screen.getAllByTestId(/comma-basis-cell-column-\d+-row-\d+/)
+    const commaBasisCells: HTMLInputElement[] = screen.getAllByTestId(/comma-basis-cell-col-\d+-row-\d+/)
     const commaBasisValues = []
     let currentCommaBasisCol: (string | number)[] = []
     let currentCommaBasisColIndex = 0

@@ -1,20 +1,20 @@
 import React from "react"
-import {handleMinus, handlePlus} from "./handlers"
-import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {Blank} from "../block/Blank"
-import {ElementProps} from "../types";
-import {BlockProps} from "../block/types";
-import {useSelector} from "react-redux";
-import {State} from "../../state/types";
+import { handleMinus, handlePlus } from "./handlers"
+import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
+import { Blank } from "../block/Blank"
+import { ElementProps } from "../types";
+import { BlockProps } from "../block/types";
+import { useSelector } from "react-redux";
+import { State } from "../../state/types";
 
-const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
+const DomainRemovesAndExpands = ({ row, col, dispatch }: BlockProps): React.JSX.Element => {
     const commaBasis = useSelector((state: State) => state.objects.commaBasis)
     const dimensionality = useSelector((state: State) => state.objects.dimensionality)
     const loading = useSelector((state: State) => state.view.loading)
 
     return PaddingAndMarginWrapper({
         row,
-        column,
+        col,
         Element: DomainRemoveOrExpandElement,
         dispatch,
         matrix: commaBasis,
@@ -23,41 +23,41 @@ const DomainRemovesAndExpands = ({row, column, dispatch}: BlockProps): React.JSX
     })
 }
 
-const DomainRemoveOrExpandElement = ({subRow, subColumn, dispatch, matrix: commaBasis, dimensionality, loading}: ElementProps): React.JSX.Element => {
+const DomainRemoveOrExpandElement = ({ subRow, subCol, dispatch, matrix: commaBasis, dimensionality, loading }: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
-    const gridColumn = subColumn.gridColumn
+    const gridColumn = subCol.gridColumn
 
     if (!commaBasis) throw new Error("No comma basis.")
     if (!dispatch) throw new Error("No dispatch.")
     if (!dimensionality) throw new Error("No dimensionality.")
 
     if (subRow.type === "text") {
-        return <Blank {...{gridRow, gridColumn}}/>
+        return <Blank {...{ gridRow, gridColumn }} />
     } else {
-        if (subColumn.type === "gridded" && subColumn.index === dimensionality - 1) {
+        if (subCol.type === "gridded" && subCol.index === dimensionality - 1) {
             return (
-                <div className="square-box" style={{gridRow, gridColumn}}>
+                <div className="square-box" style={{ gridRow, gridColumn }}>
                     <button
                         disabled={loading}
-                        onClick={() => handleMinus({dispatch, matrix: commaBasis, dimensionality})}
+                        onClick={() => handleMinus({ dispatch, matrix: commaBasis, dimensionality })}
                     >
                         -
                     </button>
                 </div>
             )
-        } else if (subColumn.type === "plus") {
+        } else if (subCol.type === "plus") {
             return (
-                <div className="square-box" style={{gridRow, gridColumn}}>
+                <div className="square-box" style={{ gridRow, gridColumn }}>
                     <button
                         disabled={loading}
-                        onClick={() => handlePlus({dispatch, matrix: commaBasis, dimensionality})}
+                        onClick={() => handlePlus({ dispatch, matrix: commaBasis, dimensionality })}
                     >
                         +
                     </button>
                 </div>
             )
         } else {
-            return <Blank {...{gridRow, gridColumn}}/>
+            return <Blank {...{ gridRow, gridColumn }} />
         }
     }
 }

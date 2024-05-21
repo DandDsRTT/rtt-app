@@ -1,4 +1,4 @@
-import {ViewState} from "./types"
+import { ViewState } from "./types"
 
 const initialViewState: ViewState = {
     loading: false,
@@ -131,7 +131,7 @@ const initialViewState: ViewState = {
             {
                 name: "row names",
                 viewState: "visible",
-                subColumns: [
+                subCols: [
                     {
                         type: "main",
                         gridColumn: 0,
@@ -141,7 +141,7 @@ const initialViewState: ViewState = {
             {
                 name: "collapses",
                 viewState: "visible",
-                subColumns: [
+                subCols: [
                     {
                         type: "main",
                         gridColumn: 0,
@@ -151,7 +151,7 @@ const initialViewState: ViewState = {
             {
                 name: "removes and expands",
                 viewState: "visible",
-                subColumns: [
+                subCols: [
                     {
                         type: "main",
                         gridColumn: 0,
@@ -161,7 +161,7 @@ const initialViewState: ViewState = {
             {
                 name: "header",
                 viewState: "visible",
-                subColumns: [
+                subCols: [
                     {
                         type: "main",
                         gridColumn: 0,
@@ -171,7 +171,7 @@ const initialViewState: ViewState = {
             {
                 name: "units",
                 viewState: "hidden",
-                subColumns: [
+                subCols: [
                     {
                         type: "main",
                         gridColumn: 0,
@@ -181,7 +181,7 @@ const initialViewState: ViewState = {
             {
                 name: "generators",
                 viewState: "hidden",
-                subColumns: [
+                subCols: [
                     {
                         type: "gridded",
                         index: 0,
@@ -202,7 +202,7 @@ const initialViewState: ViewState = {
             {
                 name: "domain primes",
                 viewState: "visible",
-                subColumns: [
+                subCols: [
                     {
                         type: "gridded",
                         index: 0,
@@ -227,7 +227,7 @@ const initialViewState: ViewState = {
             {
                 name: "commas",
                 viewState: "collapsed",
-                subColumns: [
+                subCols: [
                     {
                         type: "gridded",
                         index: 0,

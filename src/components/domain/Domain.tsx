@@ -1,27 +1,27 @@
 import React from "react"
-import {PRIMES} from "../../constants"
-import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {Blank} from "../block/Blank"
-import {ElementProps} from "../types";
-import {BlockProps} from "../block/types";
-import {useSelector} from "react-redux";
-import {State} from "../../state/types";
+import { PRIMES } from "../../constants"
+import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
+import { Blank } from "../block/Blank"
+import { ElementProps } from "../types";
+import { BlockProps } from "../block/types";
+import { useSelector } from "react-redux";
+import { State } from "../../state/types";
 
-const Domain = ({row, column}: BlockProps): React.JSX.Element => {
+const Domain = ({ row, col }: BlockProps): React.JSX.Element => {
     const loading = useSelector((state: State) => state.view.loading)
 
-    return PaddingAndMarginWrapper({row, column, Element: DomainElement, loading})
+    return PaddingAndMarginWrapper({ row, col, Element: DomainElement, loading })
 }
 
-const DomainElement = ({subRow, subColumn, loading}: ElementProps): React.JSX.Element => {
+const DomainElement = ({ subRow, subCol, loading }: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
-    const gridColumn = subColumn.gridColumn
+    const gridColumn = subCol.gridColumn
 
-    if (subColumn.type === "gridded" && subRow.type === "gridded") {
-        const domainElementIndex = subColumn.index!
+    if (subCol.type === "gridded" && subRow.type === "gridded") {
+        const domainElementIndex = subCol.index!
 
         return (
-            <div className="square-input" style={{gridRow, gridColumn}}>
+            <div className="square-input" style={{ gridRow, gridColumn }}>
                 <input
                     disabled={loading}
                     data-testid={`domain-cell-${domainElementIndex}`}
@@ -30,9 +30,9 @@ const DomainElement = ({subRow, subColumn, loading}: ElementProps): React.JSX.El
             </div>
         )
     } else if (subRow.type === "text") {
-        return <Blank {...{gridRow, gridColumn}}/>
+        return <Blank {...{ gridRow, gridColumn }} />
     } else {
-        return <Blank {...{gridRow, gridColumn}}/>
+        return <Blank {...{ gridRow, gridColumn }} />
     }
 }
 

@@ -1,21 +1,21 @@
 import React from "react"
-import {handleMappingElementChange} from "./handlers"
-import {useSelector} from "react-redux"
-import {PaddingAndMarginWrapper} from "../block/PaddingAndMarginWrapper"
-import {Blank} from "../block/Blank"
-import {ElementProps} from "../types";
-import {BlockProps} from "../block/types";
-import {SUBSCRIPTS} from "../../constants";
-import {State} from "../../state/types";
+import { handleMappingElementChange } from "./handlers"
+import { useSelector } from "react-redux"
+import { PaddingAndMarginWrapper } from "../block/PaddingAndMarginWrapper"
+import { Blank } from "../block/Blank"
+import { ElementProps } from "../types";
+import { BlockProps } from "../block/types";
+import { SUBSCRIPTS } from "../../constants";
+import { State } from "../../state/types";
 
-const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
+const Mapping = ({ row, col, dispatch }: BlockProps): React.JSX.Element => {
     const matrix = useSelector((state: State) => state.objects.mapping)
     const dimensionality = useSelector((state: State) => state.objects.dimensionality)
     const loading = useSelector((state: State) => state.view.loading)
 
     return PaddingAndMarginWrapper({
         row,
-        column,
+        col,
         Element: MappingElement,
         dispatch,
         matrix,
@@ -24,35 +24,35 @@ const Mapping = ({row, column, dispatch}: BlockProps): React.JSX.Element => {
     })
 }
 
-const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, dimensionality}: ElementProps): React.JSX.Element => {
+const MappingElement = ({ subRow, subCol, dispatch, matrix: mapping, loading, dimensionality }: ElementProps): React.JSX.Element => {
     const gridRow = subRow.gridRow
-    const gridColumn = subColumn.gridColumn
+    const gridColumn = subCol.gridColumn
 
     if (!mapping) throw new Error("No mapping.")
     if (!dimensionality) throw new Error("No dimensionality.")
 
-    if (subColumn.type === "gridded" && subRow.type === "gridded") {
+    if (subCol.type === "gridded" && subRow.type === "gridded") {
         const generatorIndex = subRow.index
-        const primeIndex = subColumn.index
+        const primeIndex = subCol.index
         if (!dispatch) throw new Error("No dispatch.")
         if (
             generatorIndex === undefined ||
             mapping[generatorIndex] === undefined ||
             primeIndex === undefined ||
             mapping[generatorIndex][primeIndex] === undefined
-        ) return <Blank {...{gridRow, gridColumn}}/>
+        ) return <Blank {...{ gridRow, gridColumn }} />
 
         const mappingElement = mapping[generatorIndex][primeIndex]
 
         return (
             <div
                 className="square-input"
-                style={{gridRow, gridColumn}}
+                style={{ gridRow, gridColumn }}
             >
                 <input
                     value={mappingElement}
                     disabled={loading}
-                    data-testid={`mapping-cell-row-${generatorIndex}-column-${primeIndex}`}
+                    data-testid={`mapping-cell-row-${generatorIndex}-col-${primeIndex}`}
                     title={`𝑚${SUBSCRIPTS[generatorIndex]}${SUBSCRIPTS[primeIndex]}`}
                     onChange={input => handleMappingElementChange({
                         dispatch,
@@ -64,17 +64,17 @@ const MappingElement = ({subRow, subColumn, dispatch, matrix: mapping, loading, 
                 />
             </div>
         )
-    } else if (subRow.type === "name" && subColumn.index === 0) {
+    } else if (subRow.type === "name" && subCol.index === 0) {
         return (
             <div
                 className="box-name"
-                style={{gridRow, gridColumnStart: gridColumn, gridColumnEnd: gridColumn + mapping[0].length}}
+                style={{ gridRow, gridColumnStart: gridColumn, gridColumnEnd: gridColumn + mapping[0].length }}
             >
                 mapping
             </div>
         )
     } else {
-        return <Blank {...{gridRow, gridColumn}}/>
+        return <Blank {...{ gridRow, gridColumn }} />
     }
 }
 

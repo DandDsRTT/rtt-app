@@ -1,13 +1,13 @@
-import {Action} from "@reduxjs/toolkit";
+import { Action } from "@reduxjs/toolkit";
 
 interface ViewState {
-    view: View, // TODO: break down into view.columns and view.rows
+    view: View,
     loading: boolean,
 }
 
 interface View {
     rows: Row[],
-    cols: Column[],
+    cols: Col[],
 }
 
 interface Row {
@@ -16,10 +16,10 @@ interface Row {
     subRows: SubRow[],
 }
 
-interface Column {
+interface Col {
     name: string,
     viewState: string,
-    subColumns: SubColumn[],
+    subCols: SubCol[],
 }
 
 interface SubRow {
@@ -29,7 +29,7 @@ interface SubRow {
     gridRow: number,
 }
 
-interface SubColumn {
+interface SubCol {
     type: string,
     index?: number,
     side?: string,
@@ -44,9 +44,9 @@ interface UpdateViewAction extends Action {
 export {
     ViewState,
     View,
-    Column,
+    Col,
     Row,
-    SubColumn,
+    SubCol,
     SubRow,
     UpdateViewAction,
 }

@@ -1,13 +1,13 @@
-import {configureStore, Store} from "@reduxjs/toolkit";
+import { configureStore, Store } from "@reduxjs/toolkit";
 import React from "react";
-import {fireEvent, screen, waitFor} from "@testing-library/react";
-import {App} from "../src/components/App";
-import {beforeEach, describe, expect, fdescribe, jest, test} from "@jest/globals";
-import {default as axios} from 'axios'
-import {getCommaBasisValues, getDomainValues, getMappingValues, renderWithProviders} from "./helpers";
-import {changeCommaBasis, changeMapping} from "./actions";
-import {viewReducer} from "../src/state/view/reducer";
-import {objectsReducer} from "../src/state/objects/reducer";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { App } from "../src/components/App";
+import { beforeEach, describe, expect, fdescribe, jest, test } from "@jest/globals";
+import { default as axios } from 'axios'
+import { getCommaBasisValues, getDomainValues, getMappingValues, renderWithProviders } from "./helpers";
+import { changeCommaBasis, changeMapping } from "./actions";
+import { viewReducer } from "../src/state/view/reducer";
+import { objectsReducer } from "../src/state/objects/reducer";
 
 jest.mock("axios");
 
@@ -21,13 +21,13 @@ describe("integration test", () => {
                 view: viewReducer,
             }
         })
-        renderWithProviders(<App/>, {store})
+        renderWithProviders(<App />, { store })
     })
 
     describe("expanding the domain", () => {
         const expandDomain = async () => {
-            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 1, 0, 0}, {0, 1, 4, 0}, {0, 0, 0, 1}}]"}));
-            fireEvent.click(screen.getByRole('button', {name: "+"}))
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({ data: "MatrixForm[{{1, 1, 0, 0}, {0, 1, 4, 0}, {0, 0, 0, 1}}]" }));
+            fireEvent.click(screen.getByRole('button', { name: "+" }))
             await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
         }
 
@@ -52,8 +52,8 @@ describe("integration test", () => {
 
     describe("shrinking the domain", () => {
         const shrinkDomain = async () => {
-            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 1}}]"}));
-            fireEvent.click(screen.getAllByRole('button', {name: "-"})[0])
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({ data: "MatrixForm[{{1, 1}}]" }));
+            fireEvent.click(screen.getAllByRole('button', { name: "-" })[0])
             await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
         }
 
@@ -94,7 +94,7 @@ describe("integration test", () => {
 
     describe('undoing', () => {
         const undo = async () => {
-            fireEvent.click(screen.getByRole('button', {name: "undo"}))
+            fireEvent.click(screen.getByRole('button', { name: "undo" }))
         }
 
         test("it can undo the latest action - example 1: mapping", async () => {
@@ -118,12 +118,12 @@ describe("integration test", () => {
 
     describe("inputting", () => {
         test("the app doesn't crash when a cell value is temporarily invalid while you're working on it", async () => {
-            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({data: "MatrixForm[{{1, 1, 0, 0}, {0, 1, 4, 0}, {0, 0, 0, 1}}]"}));
+            (axios.get as jest.Mock).mockImplementation(() => Promise.resolve({ data: "MatrixForm[{{1, 1, 0, 0}, {0, 1, 4, 0}, {0, 0, 0, 1}}]" }));
 
             expect(getCommaBasisValues()).toEqual([[-4, 4, -1]])
-            fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-'}})
+            fireEvent.change(screen.getByTestId("comma-basis-cell-col-0-row-0"), { target: { value: '-' } })
             expect(getCommaBasisValues()).toEqual([["-", 4, -1]])
-            fireEvent.change(screen.getByTestId("comma-basis-cell-column-0-row-0"), {target: {value: '-3'}});
+            fireEvent.change(screen.getByTestId("comma-basis-cell-col-0-row-0"), { target: { value: '-3' } });
             await waitFor(() => expect(screen.queryByText('loading...')).not.toBeTruthy());
             expect(getCommaBasisValues()).toEqual([[-3, 4, -1]])
         })
